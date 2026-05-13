@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문의 목록 - 관리자</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      body { font-family: "Pretendard", sans-serif; background: #f8fafc; }
+      .admin-main h1 { color: #1a237e; }
+      .btn-primary { background: #007BFF !important; border-color: #007BFF !important; }
+      .btn-primary:hover { background: #0056b3 !important; border-color: #0056b3 !important; }
+    </style>
+  </head>
+  <body>
+    <div class="admin-layout">
+      <%- include("./adminNav.ejs") %>
+      <main class="admin-main">
+        <div class="container py-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h4 mb-0" style="font-weight: 700;">문의 목록</h1>
+          </div>
+          <p class="text-muted small mb-3">사이트 Contact 폼으로 접수된 문의입니다. 이메일은 관리자 화면에서만 확인 가능합니다.</p>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:50px">번호</th>
+                  <th style="width:100px">이름</th>
+                  <th style="width:130px">연락처</th>
+                  <th style="width:180px">이메일</th>
+                  <th>문의 내용</th>
+                  <th style="width:120px">접수일</th>
+                  <th style="width:90px">관리</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (!contacts || contacts.length === 0) { %>
+                <tr><td colspan="7" class="text-center text-muted py-4">접수된 문의가 없습니다.</td></tr>
+                <% } else { contacts.forEach(function(c, i){ %>
+                <tr>
+                  <td><%= contacts.length - i %></td>
+                  <td><%= c.name %></td>
+                  <td><%= c.phone %></td>
+                  <td class="small"><%= c.email %></td>
+                  <td class="small text-break" style="max-width:280px;"><%= (c.message || '').slice(0, 80) %><%= (c.message && c.message.length > 80) ? '…' : '' %></td>
+                  <td class="text-muted small"><%= new Date(c.createdAt).toLocaleDateString('ko-KR') %> <%= new Date(c.createdAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) %></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#detailModal<%= c._id %>">보기</button>
+                    <form action="/admin/contactDelete" method="post" class="d-inline ms-1" onsubmit="return confirm('이 문의를 삭제할까요?');">
+                      <input type="hidden" name="id" value="<%= c._id %>" />
+                      <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                    </form>
+                  </td>
+                </tr>
+                <!-- 상세 모달 -->
+                <div class="modal fade" id="detailModal<%= c._id %>" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">문의 상세</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p><strong>이름:</strong> <%= c.name %></p>
+                        <p><strong>연락처:</strong> <%= c.phone %></p>
+                        <p><strong>이메일:</strong> <%= c.email %></p>
+                        <p><strong>접수일:</strong> <%= new Date(c.createdAt).toLocaleString('ko-KR') %></p>
+                        <hr />
+                        <p><strong>문의 내용</strong></p>
+                        <p class="text-break" style="white-space: pre-wrap;"><%= c.message %></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }); } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+      </main>
+    </div>
+  </body>
+</html>

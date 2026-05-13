@@ -1,0 +1,283 @@
+<nav class="navbar navbar-expand-lg sticky-top main-nav-theme" id="mainNavBar" style="z-index: 1000;">
+  <style>
+    .main-nav-theme { transition: background 0.25s ease, box-shadow 0.25s ease; width: 100%; max-width: 100vw; overflow-x: hidden; }
+    [data-theme="dark"] .main-nav-theme { background: rgba(5, 5, 8, 0.9) !important; backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(45, 212, 191, 0.08); }
+    .nav-brand-text { text-decoration: none; display: flex; align-items: center; gap: 12px; transition: opacity 0.2s; }
+    .nav-brand-text:hover { opacity: 0.9; }
+    .nav-brand-logo { flex-shrink: 0; line-height: 0; }
+    .nav-brand-logo img { width: 36px; height: 36px; object-fit: contain; display: block; }
+    .nav-brand-name { font-weight: 600; font-size: 1rem; letter-spacing: -0.02em; line-height: 1.3; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 400px) { .nav-brand-name { font-size: 0.875rem; } }
+    [data-theme="dark"] .nav-brand-name { color: #ffffff; }
+    [data-theme="light"] .nav-brand-name { color: #0f172a; }
+    .nav-brand-name-ko { display: block; }
+    .nav-brand-name-en { display: none; }
+    html[lang="en"] .nav-brand-name-ko { display: none; }
+    html[lang="en"] .nav-brand-name-en { display: block; }
+    .nav-link .nav-ko { display: inline; }
+    .nav-link .nav-en { display: none; }
+    html[lang="en"] .nav-link .nav-ko { display: none; }
+    html[lang="en"] .nav-link .nav-en { display: inline; }
+    .offcanvas-title .nav-ko { display: inline; }
+    .offcanvas-title .nav-en { display: none; }
+    html[lang="en"] .offcanvas-title .nav-ko { display: none; }
+    html[lang="en"] .offcanvas-title .nav-en { display: inline; }
+    .lang-switch { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+    .lang-switch button { background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; color: var(--nav-muted); font-weight: 500; }
+    .lang-switch button:hover { color: var(--nav-text); }
+    .lang-switch button.active { color: #2E86FF; }
+    [data-theme="light"] .lang-switch button.active { color: #007BFF; }
+    [data-theme="dark"] .lang-switch { --nav-muted: #94a3b8; --nav-text: #f1f5f9; }
+    [data-theme="light"] .lang-switch { --nav-muted: #64748b; --nav-text: #0f172a; }
+    [data-theme="dark"] .main-nav-theme .nav-link { color: #94a3b8 !important; }
+    [data-theme="dark"] .main-nav-theme .nav-link:hover { color: #f1f5f9 !important; }
+    [data-theme="dark"] .main-nav-theme .navbar-toggler { border-color: rgba(148, 163, 184, 0.3); color: #94a3b8; }
+    [data-theme="dark"] .main-nav-theme .navbar-toggler-icon { filter: invert(1); opacity: 0.8; }
+    [data-theme="dark"] #offcanvasNavbar { background: #0c0c12 !important; }
+    [data-theme="dark"] #offcanvasNavbar .offcanvas-title { color: #f1f5f9 !important; }
+    [data-theme="dark"] #offcanvasNavbar .btn-close { filter: invert(1); opacity: 0.8; }
+    [data-theme="dark"] #offcanvasNavbar .nav-link { color: #e2e8f0 !important; }
+    [data-theme="dark"] #offcanvasNavbar .nav-link:hover { color: #ffffff !important; background: rgba(148, 163, 184, 0.12) !important; }
+    [data-theme="dark"] #offcanvasNavbar .lang-switch button { color: #94a3b8 !important; }
+    [data-theme="dark"] #offcanvasNavbar .lang-switch button:hover { color: #e2e8f0 !important; }
+    [data-theme="dark"] #offcanvasNavbar .lang-switch button.active { color: #60a5fa !important; }
+    [data-theme="light"] .main-nav-theme { background: #ffffff !important; box-shadow: 0 1px 0 rgba(0,0,0,0.06); }
+    [data-theme="light"] .main-nav-theme .nav-link { color: #334155 !important; }
+    [data-theme="light"] .main-nav-theme .nav-link:hover { color: #0f172a !important; }
+    [data-theme="light"] .main-nav-theme .navbar-toggler { border-color: rgba(0,0,0,0.15); color: #334155; }
+    [data-theme="light"] .main-nav-theme .navbar-toggler-icon { filter: none; opacity: 1; }
+    [data-theme="light"] #offcanvasNavbar { background: #ffffff !important; }
+    [data-theme="light"] #offcanvasNavbar .offcanvas-title { color: #0f172a !important; }
+    [data-theme="light"] #offcanvasNavbar .btn-close { filter: none; opacity: 0.5; }
+    /* Theme switch UI */
+    .theme-switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
+    .theme-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .theme-switch-track {
+      position: relative; width: 44px; height: 24px; border-radius: 12px;
+      background: rgba(46, 134, 255, 0.2); transition: background 0.25s ease;
+      flex-shrink: 0;
+    }
+    [data-theme="light"] .theme-switch-track { background: #cbd5e1; }
+    .theme-switch-thumb {
+      position: absolute; left: 2px; top: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.25s ease;
+      pointer-events: none;
+    }
+    .theme-switch input:checked + .theme-switch-track .theme-switch-thumb {
+      transform: translateX(20px);
+      background: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .nav-section-links {
+      display: none;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    @media (min-width: 992px) {
+      .nav-section-links { display: flex; }
+    }
+    .nav-section-links .nav-link {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      border-radius: 8px;
+    }
+    .nav-section-links .nav-link:hover { background: rgba(148, 163, 184, 0.1); }
+    [data-theme="light"] .nav-section-links .nav-link:hover { background: rgba(0,0,0,0.05); }
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: currentColor;
+      opacity: 0.25;
+      margin: 0 0.25rem;
+    }
+    /* PC: 한 줄 레이아웃 – 로고 왼쪽, 메뉴·테마 오른쪽 */
+    .main-nav-theme .nav-inner {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-width: 0;
+      min-height: 56px;
+      gap: 8px;
+    }
+    .main-nav-theme .navbar-brand { margin-right: 0; min-width: 0; flex: 1 1 auto; }
+    .main-nav-theme > .nav-inner { flex: 1 1 auto; min-width: 0; }
+    .main-nav-theme .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    /* PC에서는 오프캔버스 미노출 – 가로 메뉴만 사용 */
+    @media (min-width: 992px) {
+      #offcanvasNavbar.offcanvas { display: none !important; }
+      .nav-mobile-only { display: none !important; }
+    }
+    /* 모바일: 헤더에서는 언어·테마 숨기고 햄버거만 (오프캔버스에서 표시) */
+    @media (max-width: 991.98px) {
+      .nav-right .lang-switch,
+      .nav-right .theme-switch { display: none !important; }
+      .nav-mobile-only { display: flex !important; }
+    }
+    /* 오프캔버스: nav 밖에 두어 overflow 영향 없음. body 확실히 표시 */
+    #offcanvasNavbar.offcanvas {
+      z-index: 1050 !important;
+    }
+    #offcanvasNavbar .offcanvas-body {
+      display: block !important;
+      min-height: 280px !important;
+      padding: 1rem 1.25rem !important;
+      overflow-y: auto !important;
+      flex: 1 1 auto !important;
+    }
+    #offcanvasNavbar .navbar-nav {
+      display: block !important;
+      margin-bottom: 1.5rem !important;
+      padding: 0 !important;
+      list-style: none !important;
+    }
+    #offcanvasNavbar .nav-item {
+      display: block !important;
+    }
+    #offcanvasNavbar .nav-link {
+      display: block !important;
+      padding: 0.65rem 0.75rem !important;
+      font-size: 1rem !important;
+      border-radius: 8px !important;
+    }
+    #offcanvasNavbar .offcanvas-actions {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      gap: 1rem !important;
+      padding-top: 1rem !important;
+      border-top: 1px solid rgba(148, 163, 184, 0.2) !important;
+    }
+    [data-theme="light"] #offcanvasNavbar .offcanvas-actions { border-top-color: #e2e8f0 !important; }
+    #offcanvasNavbar .offcanvas-actions .lang-switch { margin-right: 0.25rem; }
+  </style>
+  <div class="container-fluid px-3 px-lg-4 nav-inner" style="max-width: 100%;">
+    <a class="navbar-brand d-flex align-items-center flex-shrink-0 nav-brand-text" href="/">
+      <span class="nav-brand-logo"><img src="/images/logo.png" alt="K-Quantum Holdings" /></span>
+      <span class="nav-brand-name">
+        <span class="nav-brand-name-ko">주식회사 케이퀀텀 홀딩스</span>
+        <span class="nav-brand-name-en">K-Quantum Holdings Inc.</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <!-- Desktop: 메뉴 -->
+      <div class="nav-section-links">
+        <a class="nav-link nav-section-link" href="/#hero"><span class="nav-ko">홈</span><span class="nav-en">Home</span></a>
+        <a class="nav-link nav-section-link" href="/#paradigm"><span class="nav-ko">소개</span><span class="nav-en">About</span></a>
+        <a class="nav-link nav-section-link" href="/#certifications"><span class="nav-ko">인증현황</span><span class="nav-en">Certifications</span></a>
+        <a class="nav-link nav-section-link" href="/#innovation"><span class="nav-ko">기술</span><span class="nav-en">Technology</span></a>
+        <a class="nav-link nav-section-link" href="/#contact"><span class="nav-ko">연락처</span><span class="nav-en">Contact</span></a>
+        <a class="nav-link nav-section-link" href="/board"><span class="nav-ko">게시판</span><span class="nav-en">Board</span></a>
+      </div>
+      <div class="lang-switch">
+        <button type="button" id="langKo" aria-label="한국어">한글</button>
+        <span style="opacity: 0.5;">|</span>
+        <button type="button" id="langEn" aria-label="English">EN</button>
+      </div>
+      <label class="theme-switch" aria-label="테마 전환" title="다크 ↔ 라이트">
+        <input type="checkbox" id="themeSwitch" />
+        <span class="theme-switch-track"><span class="theme-switch-thumb"></span></span>
+      </label>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<!-- Mobile: offcanvas를 nav 밖에 두어 body 내용이 반드시 보이도록 -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><span class="nav-ko">메뉴</span><span class="nav-en">Menu</span></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav flex-column gap-1">
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/#hero"><span class="nav-ko">홈</span><span class="nav-en">Home</span></a></li>
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/#paradigm"><span class="nav-ko">소개</span><span class="nav-en">About</span></a></li>
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/#certifications"><span class="nav-ko">인증현황</span><span class="nav-en">Certifications</span></a></li>
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/#innovation"><span class="nav-ko">기술</span><span class="nav-en">Technology</span></a></li>
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/#contact"><span class="nav-ko">연락처</span><span class="nav-en">Contact</span></a></li>
+      <li class="nav-item"><a class="nav-link nav-section-link" href="/board"><span class="nav-ko">게시판</span><span class="nav-en">Board</span></a></li>
+    </ul>
+    <div class="offcanvas-actions nav-mobile-only">
+      <div class="lang-switch">
+        <button type="button" id="langKoMobile" aria-label="한국어">한글</button>
+        <span style="opacity: 0.5;">|</span>
+        <button type="button" id="langEnMobile" aria-label="English">EN</button>
+      </div>
+      <label class="theme-switch" aria-label="테마 전환">
+        <input type="checkbox" id="themeSwitchMobile" />
+        <span class="theme-switch-track"><span class="theme-switch-thumb"></span></span>
+      </label>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('winspire-theme', theme);
+      var isLight = (theme === 'light');
+      var s1 = document.getElementById('themeSwitch');
+      var s2 = document.getElementById('themeSwitchMobile');
+      if (s1) s1.checked = isLight;
+      if (s2) s2.checked = isLight;
+    }
+    // 메인(/) = 다크 기본, 서브 = 라이트 기본
+    var saved = localStorage.getItem('winspire-theme');
+    var isMain = (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index');
+    var defaultTheme = isMain ? 'dark' : 'light';
+    setTheme((saved === 'light' || saved === 'dark') ? saved : defaultTheme);
+
+    ['themeSwitch', 'themeSwitchMobile'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.checked = (document.documentElement.getAttribute('data-theme') === 'light');
+        el.addEventListener('change', function() { setTheme(this.checked ? 'light' : 'dark'); });
+      }
+    });
+
+    function setLang(lang) {
+      document.documentElement.setAttribute('lang', lang);
+      localStorage.setItem('kquantum-lang', lang);
+      var koBtns = document.querySelectorAll('#langKo, #langKoMobile');
+      var enBtns = document.querySelectorAll('#langEn, #langEnMobile');
+      koBtns.forEach(function(b) { b.classList.toggle('active', lang === 'ko'); });
+      enBtns.forEach(function(b) { b.classList.toggle('active', lang === 'en'); });
+    }
+    var savedLang = localStorage.getItem('kquantum-lang');
+    setLang(savedLang === 'en' ? 'en' : 'ko');
+    document.querySelectorAll('#langKo, #langKoMobile').forEach(function(el) {
+      if (el) el.addEventListener('click', function() { setLang('ko'); });
+    });
+    document.querySelectorAll('#langEn, #langEnMobile').forEach(function(el) {
+      if (el) el.addEventListener('click', function() { setLang('en'); });
+    });
+
+    // Close offcanvas when a section anchor link is clicked
+    var offcanvas = document.getElementById('offcanvasNavbar');
+    var sectionLinks = document.querySelectorAll('.nav-section-link');
+    sectionLinks.forEach(function(a) {
+      a.addEventListener('click', function() {
+        if (offcanvas && window.bootstrap && bootstrap.Offcanvas.getInstance(offcanvas)) {
+          bootstrap.Offcanvas.getInstance(offcanvas).hide();
+        }
+      });
+    });
+  })();
+</script>

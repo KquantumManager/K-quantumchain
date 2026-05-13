@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>관리자 - K-Quantum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      body { font-family: "Pretendard", sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; }
+      .admin-main h1 { color: #1a237e; }
+      .admin-card { background: #fff; border: 1px solid #e3f2fd; border-radius: 12px; padding: 28px; text-decoration: none; color: inherit; display: block; transition: all 0.2s; }
+      .admin-card:hover { border-color: #007BFF; box-shadow: 0 8px 24px rgba(0,123,255,0.12); color: #007BFF; }
+      .admin-card i { font-size: 28px; color: #007BFF; margin-bottom: 12px; }
+      .admin-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+      .admin-card p { font-size: 13px; color: #64748b; margin: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="admin-layout">
+      <%- include("./adminNav.ejs") %>
+      <main class="admin-main">
+        <div class="container py-5">
+          <h1 class="mb-4" style="font-weight: 700;">관리자 대시보드</h1>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <a href="/admin/boardList" class="admin-card">
+                <i class="fas fa-list"></i>
+                <h3>게시글 목록</h3>
+                <p>등록된 게시글을 보고 관리합니다</p>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/admin/boardWrite" class="admin-card">
+                <i class="fas fa-pen"></i>
+                <h3>글 쓰기</h3>
+                <p>이미지와 글을 올려 게시글을 작성합니다</p>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/admin/boardCategories" class="admin-card">
+                <i class="fas fa-folder"></i>
+                <h3>카테고리 관리</h3>
+                <p>게시판 카테고리를 추가·수정·삭제합니다</p>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/admin/contactList" class="admin-card">
+                <i class="fas fa-envelope"></i>
+                <h3>문의 목록</h3>
+                <p>Contact 폼으로 접수된 문의를 확인·관리합니다</p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+      </main>
+    </div>
+  </body>
+</html>

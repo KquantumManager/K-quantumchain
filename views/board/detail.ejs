@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include("../main/head.ejs", { title: (post.title || post.titleEn || '게시글') + " - K-Quantum Holdings" }) %>
+    <style>
+      body { font-family: "Inter", -apple-system, sans-serif; margin: 0; overflow-x: hidden; }
+      [data-theme="dark"] { --board-page-bg: #050508; --board-page-text: #f1f5f9; }
+      [data-theme="light"] { --board-page-bg: #ffffff; --board-page-text: #0f172a; }
+      body { background: var(--board-page-bg); color: var(--board-page-text); transition: background 0.25s ease, color 0.25s ease; }
+      [data-theme="dark"] .board-detail { --b-bg: #0c0c12; --b-border: rgba(148,163,184,0.15); --b-text: #f1f5f9; --b-muted: #94a3b8; }
+      [data-theme="light"] .board-detail { --b-bg: #f8fafc; --b-border: #e2e8f0; --b-text: #0f172a; --b-muted: #64748b; }
+      .board-detail { max-width: 800px; width: 100%; margin: 0 auto; padding: 40px 24px; min-height: 60vh; box-sizing: border-box; }
+      .board-detail .back { display: inline-flex; align-items: center; gap: 6px; color: var(--b-muted); text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+      .board-detail .back:hover { color: #3b82f6; }
+      [data-theme="light"] .board-detail .back:hover { color: #2563eb; }
+      .board-detail .head { border-bottom: 1px solid var(--b-border); padding-bottom: 20px; margin-bottom: 24px; }
+      .board-detail .cat { font-size: 12px; color: #3b82f6; font-weight: 600; margin-bottom: 8px; }
+      [data-theme="light"] .board-detail .cat { color: #2563eb; }
+      .board-detail h1 { font-size: 1.5rem; font-weight: 700; color: var(--b-text); line-height: 1.4; margin-bottom: 12px; word-wrap: break-word; overflow-wrap: break-word; }
+      .board-detail .date { font-size: 13px; color: var(--b-muted); }
+      .board-detail .body { color: var(--b-text); line-height: 1.8; word-break: break-word; overflow-wrap: break-word; max-width: 100%; }
+      .board-detail .body .board-plain { white-space: pre-wrap; }
+      .board-detail .body p { margin: 0 0 1em; }
+      .board-detail .body p:last-child { margin-bottom: 0; }
+      .board-detail .body a { color: #3b82f6; text-decoration: underline; word-break: break-all; }
+      .board-detail .body a:hover { opacity: 0.9; }
+      [data-theme="light"] .board-detail .body a { color: #2563eb; }
+      .board-detail .body img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; display: block; }
+      .board-slider { margin-bottom: 24px; border-radius: 12px; overflow: hidden; background: var(--b-bg); border: 1px solid var(--b-border); }
+      .board-slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+      .board-slider-track::-webkit-scrollbar { height: 6px; }
+      .board-slider-track::-webkit-scrollbar-thumb { background: var(--b-border); border-radius: 3px; }
+      .board-slider-slide { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+      .board-slider-slide img { width: 100%; height: auto; max-height: 70vh; object-fit: contain; display: block; background: #0a0a0a; }
+      [data-theme="light"] .board-slider-slide img { background: #f1f5f9; }
+      .board-slider-footer { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px 16px; border-top: 1px solid var(--b-border); color: var(--b-muted); font-size: 14px; }
+      .board-slider-indicator { font-weight: 600; color: var(--b-text); }
+      .board-slider-dots { display: flex; gap: 8px; align-items: center; }
+      .board-slider-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--b-border); transition: background 0.2s; }
+      .board-slider-dots span.active { background: #3b82f6; }
+      [data-theme="light"] .board-slider-dots span.active { background: #2563eb; }
+      .board-slider-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--b-border); background: var(--b-bg); color: var(--b-text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: opacity 0.2s; }
+      .board-slider-btn:hover { opacity: 0.8; }
+      .board-slider-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+      @media (max-width: 576px) { .board-detail { padding: 24px 16px; } }
+      .board-ko { display: block; }
+      .board-en { display: none; }
+      html[lang="en"] .board-ko { display: none; }
+      html[lang="en"] .board-en { display: block; }
+    </style>
+  </head>
+  <body>
+    <%- include("../main/mainNav.ejs") %>
+    <div class="board-detail">
+      <a href="/board" class="back"><i class="fas fa-arrow-left"></i> <span class="board-ko">목록</span><span class="board-en">List</span></a>
+      <div class="head">
+        <div class="cat"><span class="board-ko"><%= post.categoryName %></span><span class="board-en"><%= post.categoryNameEn %></span></div>
+        <h1><span class="board-ko"><%= post.title || '-' %></span><span class="board-en"><%= (post.titleEn || post.title) || '-' %></span></h1>
+        <div class="date"><%= new Date(post.createdAt).toLocaleString('ko-KR') %></div>
+      </div>
+      <% if (post.images && post.images.length) { %>
+      <div class="board-slider" data-slider>
+        <div class="board-slider-track" data-track>
+          <% post.images.forEach(function(src){ %>
+          <div class="board-slider-slide"><img src="<%= src %>" alt="" /></div>
+          <% }); %>
+        </div>
+        <div class="board-slider-footer">
+          <button type="button" class="board-slider-btn" data-prev aria-label="이전"><i class="fas fa-chevron-left"></i></button>
+          <span class="board-slider-indicator" data-indicator>1 / <%= post.images.length %></span>
+          <div class="board-slider-dots" data-dots>
+            <% for (var i = 0; i < post.images.length; i++) { %>
+            <span data-dot <%= i === 0 ? 'class="active"' : '' %>></span>
+            <% } %>
+          </div>
+          <button type="button" class="board-slider-btn" data-next aria-label="다음"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <% } %>
+      <div class="body"><span class="board-ko"><%- post.contentHtml %></span><span class="board-en"><%- post.contentEnHtml %></span></div>
+    </div>
+    <%- include("../main/footer.ejs") %>
+    <% if (post.images && post.images.length) { %>
+    <script>
+(function() {
+  var slider = document.querySelector('[data-slider]');
+  if (!slider) return;
+  var track = slider.querySelector('[data-track]');
+  var indicator = slider.querySelector('[data-indicator]');
+  var dots = slider.querySelectorAll('[data-dot]');
+  var prevBtn = slider.querySelector('[data-prev]');
+  var nextBtn = slider.querySelector('[data-next]');
+  var total = <%= post.images.length %>;
+
+  function getCurrentIndex() {
+    var w = track.offsetWidth;
+    return Math.round(track.scrollLeft / w);
+  }
+
+  function updateUI(index) {
+    index = Math.max(0, Math.min(index, total - 1));
+    indicator.textContent = (index + 1) + ' / ' + total;
+    dots.forEach(function(dot, i) { dot.classList.toggle('active', i === index); });
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === total - 1;
+  }
+
+  function goTo(index) {
+    index = Math.max(0, Math.min(index, total - 1));
+    track.scrollTo({ left: index * track.offsetWidth, behavior: 'smooth' });
+  }
+
+  track.addEventListener('scroll', function() { updateUI(getCurrentIndex()); });
+  prevBtn.addEventListener('click', function() { goTo(getCurrentIndex() - 1); });
+  nextBtn.addEventListener('click', function() { goTo(getCurrentIndex() + 1); });
+  dots.forEach(function(dot, i) { dot.addEventListener('click', function() { goTo(i); }); });
+  updateUI(0);
+})();
+    </script>
+    <% } %>
+  </body>
+</html>

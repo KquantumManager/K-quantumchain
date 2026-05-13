@@ -1,0 +1,109 @@
+{
+  "categories": [
+    {
+      "_id": "69ae2da10c7f4d7795177f7d",
+      "name": "게시판",
+      "nameEn": "Board",
+      "order": 0,
+      "createdAt": "2026-03-09T02:17:05.405Z"
+    },
+    {
+      "_id": "69d5bcf947c248523eddb463",
+      "name": "회사 정보",
+      "nameEn": "",
+      "order": 1,
+      "createdAt": "2026-04-08T02:27:05.611Z"
+    }
+  ],
+  "posts": [
+    {
+      "_id": "69e8285e4829fcdf63870383",
+      "title": "(주)케이퀀텀홀딩스 , 글로벌소스 오픈... 세계 시장 진출 본격화!",
+      "titleEn": "K Quantum Holdings Co., Ltd. Opens Global Source... to enter the global market!",
+      "content": "<p>관련 기사 링크</p><p>https://collabonews.com/news/view.html?skey=%C4%F6%C5%D2&amp;x=29&amp;y=10§ion=221&amp;category=273&amp;no=6773</p>",
+      "contentEn": "<p><br></p>",
+      "categoryId": "69ae2da10c7f4d7795177f7d",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1776822366559-%28%C3%AC%C2%A3%C2%BC%29%C3%AD%C2%80%C2%80%C3%AD%C2%85%C2%80.png",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1776822393275-%28%C3%AC%C2%A3%C2%BC%29%C3%AD%C2%80%C2%80%C3%AD%C2%85%C2%801.png",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1776822411674-%28%C3%AC%C2%A3%C2%BC%29%C3%AD%C2%80%C2%80%C3%AD%C2%85%C2%803.png"
+      ],
+      "createdAt": "2026-04-22T01:46:06.724Z",
+      "updatedAt": "2026-04-22T01:59:31.869Z"
+    },
+    {
+      "_id": "69d5f65147c248523eddb469",
+      "title": "국회 포럼서 '도전유망기업 100'선정 ... 케이퀀텀홀딩스 기술력 주목",
+      "titleEn": "National Assembly Forum to Select '100 Promising Companies for Challenge'... Attention is paid to KQuantum Holdings Technology",
+      "content": "관련 기사 링크\r\nhttps://collabonews.com/news/view.html?section=221&category=226&item=&no=6690",
+      "contentEn": "관련 기사 링크\r\nhttps://collabonews.com/news/view.html?section=221&category=226&item=&no=6690",
+      "categoryId": "69ae2da10c7f4d7795177f7d",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629904962-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%842-2.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629904964-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%842-3.jpg"
+      ],
+      "createdAt": "2026-04-08T06:31:45.180Z"
+    },
+    {
+      "_id": "69d5ddc447c248523eddb468",
+      "title": "케이퀀텀홀딩스, 미래 기술 기업으로 부상",
+      "titleEn": " K-Quantum Holdings Emerges as a Future Technology Company",
+      "content": "관련 기사 링크\r\nhttps://blog.naver.com/esgcollaboclub/224234248821",
+      "contentEn": "Links to related articles\r\nhttps://blog.naver.com/esgcollaboclub/224234248821",
+      "categoryId": "69ae2da10c7f4d7795177f7d",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629708900-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%843-1.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629708903-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%843-2.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629708912-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%843-3.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629708917-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%843-3.png",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775629708959-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%843-4.jpg"
+      ],
+      "createdAt": "2026-04-08T04:47:00.320Z",
+      "updatedAt": "2026-04-08T06:39:22.454Z"
+    },
+    {
+      "_id": "69d5d90b47c248523eddb466",
+      "title": "양자컴퓨터 접목한 블록체인 기술공개...보안.공정성 개선 가능성 제시",
+      "titleEn": "Blockchain Technology Launched With Quantum Computer... Proposed to Improve Security and Fairness",
+      "content": "관련 기사 링크\r\nhttps://collabonews.com/news/view.html?section=221&category=226&item=&no=6657\r\nhttps://jj-heart.tistory.com/367\r\nhttps://blog.naver.com/esgcollaboclub/224228126274",
+      "contentEn": "Links to related articles\r\nhttps://collabonews.com/news/view.html?section=221&category=226&item=&no=6657\r\nhttps://jj-heart.tistory.com/367\r\nhttps://blog.naver.com/esgcollaboclub/224228126274",
+      "categoryId": "69ae2da10c7f4d7795177f7d",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055588-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-1.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055594-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-2.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055596-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-3.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055598-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-4.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055600-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-5.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055731-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-6.jpg",
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775623055757-%C3%AD%C2%96%C2%89%C3%AC%C2%82%C2%AC_%C3%AC%C2%82%C2%AC%C3%AC%C2%A7%C2%841-7.jpg"
+      ],
+      "createdAt": "2026-04-08T04:26:51.242Z",
+      "updatedAt": "2026-04-08T06:23:45.391Z"
+    },
+    {
+      "_id": "69d5d24d47c248523eddb465",
+      "title": "퀀텀 기반 블록체인 기술 발표회 24일 개최",
+      "titleEn": "Quantum-based Blockchain Technology Presentation to be Held on the 24th",
+      "content": "관련 기사 링크\r\nhttps://blog.naver.com/esgcollaboclub/224222643278\r\nhttps://jj-heart.tistory.com/366",
+      "contentEn": "Links to related articles\r\nhttps://blog.naver.com/esgcollaboclub/224222643278\r\nhttps://jj-heart.tistory.com/366",
+      "categoryId": "69ae2da10c7f4d7795177f7d",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775621581998-%C3%AB%C2%B8%C2%94%C3%AB%C2%A1%C2%9D%C3%AC%C2%B2%C2%B4%C3%AC%C2%9D%C2%B8%C3%AD%C2%8F%C2%AC%C3%AC%C2%8A%C2%A4%C3%AD%C2%84%C2%B0.png"
+      ],
+      "createdAt": "2026-04-08T03:58:05.806Z",
+      "updatedAt": "2026-04-08T06:39:54.351Z"
+    },
+    {
+      "_id": "69d5bd6f47c248523eddb464",
+      "title": "케이퀀텀홀딩스 조직도",
+      "titleEn": "K-Quantum Holdings Organization Chart",
+      "content": "",
+      "contentEn": "",
+      "categoryId": "69d5bcf947c248523eddb463",
+      "images": [
+        "https://colabus.s3.ap-northeast-2.amazonaws.com/123tire/assets/board/1775615343592-k%C3%AD%C2%80%C2%80%C3%AD%C2%85%C2%80_%C3%AD%C2%99%C2%80%C3%AB%C2%94%C2%A9%C3%AC%C2%8A%C2%A4_%C3%AC%C2%A1%C2%B0%C3%AC%C2%A7%C2%81%C3%AB%C2%8F%C2%84.png"
+      ],
+      "createdAt": "2026-04-08T02:29:03.807Z"
+    }
+  ]
+}

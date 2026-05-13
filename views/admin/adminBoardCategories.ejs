@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>카테고리 관리 - 관리자</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      body { font-family: "Pretendard", sans-serif; background: #f8fafc; }
+      .admin-main h1 { color: #1a237e; }
+    </style>
+  </head>
+  <body>
+    <div class="admin-layout">
+      <%- include("./adminNav.ejs") %>
+      <main class="admin-main">
+        <div class="container py-5">
+          <h1 class="h4 mb-4" style="font-weight: 700;">카테고리 관리</h1>
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card border">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                  <span>카테고리 목록 (한글 / English)</span>
+                  <button type="button" class="btn btn-sm btn-primary" id="btnAddCategory" style="background: #007BFF; border: none;">추가</button>
+                </div>
+                <ul class="list-group list-group-flush" id="categoryList">
+                  <% (categories || []).forEach(function(c){ %>
+                  <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<%= c._id %>" data-name="<%= (c.name || '').replace(/"/g, '&quot;') %>" data-name-en="<%= (c.nameEn || '').replace(/"/g, '&quot;') %>">
+                    <span class="cat-name"><span class="cat-ko"><%= c.name %></span><% if (c.nameEn) { %> <span class="text-muted small">/</span> <span class="cat-en text-muted"><%= c.nameEn %></span><% } %></span>
+                    <div>
+                      <button type="button" class="btn btn-sm btn-outline-secondary btn-edit-cat">수정</button>
+                      <button type="button" class="btn btn-sm btn-outline-danger btn-del-cat ms-1">삭제</button>
+                    </div>
+                  </li>
+                  <% }); %>
+                  <% if (!categories || categories.length === 0) { %>
+                  <li class="list-group-item text-muted text-center" id="emptyCat">등록된 카테고리가 없습니다.</li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+          (function() {
+            function addCategory() {
+              var name = prompt("카테고리 이름 (한글)");
+              if (name === null) return;
+              var nameEn = prompt("카테고리 이름 (English)", "");
+              if (name === null && nameEn === null) return;
+              $.post("/admin/api/categoryAdd", { name: (name || "").trim(), nameEn: (nameEn || "").trim() }, function(res) {
+                if (res.success) location.reload();
+                else alert("추가 실패");
+              }, "json").fail(function() { alert("오류 발생"); });
+            }
+            $("#btnAddCategory").on("click", addCategory);
+            $("#categoryList").on("click", ".btn-edit-cat", function() {
+              var li = $(this).closest("li");
+              var id = li.data("id");
+              var name = li.data("name") || "";
+              var nameEn = li.data("name-en") || "";
+              var newName = prompt("카테고리 이름 (한글) 수정", name);
+              if (newName === null) return;
+              var newNameEn = prompt("카테고리 이름 (English) 수정", nameEn);
+              if (newNameEn === null) return;
+              $.post("/admin/api/categoryUpdate", { id: id, name: newName.trim(), nameEn: newNameEn.trim() }, function(res) {
+                if (res.success) {
+                  li.find(".cat-ko").text(newName.trim());
+                  li.find(".cat-en").text(newNameEn.trim());
+                  li.data("name", newName.trim());
+                  li.data("name-en", newNameEn.trim());
+                  if (!li.find(".cat-en").length) li.find(".cat-name").append(' <span class="text-muted small">/</span> <span class="cat-en text-muted">' + newNameEn.trim() + "</span>");
+                  else li.find(".cat-en").text(newNameEn.trim());
+                } else alert("수정 실패");
+              }, "json").fail(function() { alert("오류 발생"); });
+            });
+            $("#categoryList").on("click", ".btn-del-cat", function() {
+              var li = $(this).closest("li");
+              var id = li.data("id");
+              if (!confirm("이 카테고리를 삭제할까요? 해당 카테고리의 글은 '선택 안 함'으로 바뀝니다.")) return;
+              $.post("/admin/api/categoryDelete", { id: id }, function(res) {
+                if (res.success) { li.remove(); $("#emptyCat").remove(); if ($("#categoryList li").length === 0) $("#categoryList").append("<li class=\"list-group-item text-muted text-center\" id=\"emptyCat\">등록된 카테고리가 없습니다.</li>"); }
+                else alert("삭제 실패");
+              }, "json").fail(function() { alert("오류 발생"); });
+            });
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "users": [],
+  "contents": [],
+  "products": [],
+  "orders": [],
+  "chats": [],
+  "agentChats": [],
+  "agents": [],
+  "contacts": [],
+  "planSettings": [
+    {
+      "_id": "plansetting_subscription_default",
+      "type": "subscription",
+      "settings": {
+        "plans": [],
+        "note": "요금제는 이 파일(planSettings)을 직접 수정하거나 관리 화면에서 변경하세요."
+      }
+    }
+  ],
+  "mainBanners": [],
+  "creditCharges": [],
+  "generatedImages": [],
+  "smsSettings": [],
+  "callSettings": [],
+  "smsAutoreplySettings": [],
+  "addressBook": []
+}

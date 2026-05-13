@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include("head.ejs", { title: "K-Quantum Holdings – Quantum Chain" }) %>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        word-break: keep-all;
+      }
+
+      :root,
+      [data-theme="dark"] {
+        --navy: #050508;
+        --navy-mid: #0c0c12;
+        --navy-light: #14141c;
+        --accent: #2E86FF;
+        --accent-light: #66B2FF;
+        --accent-dark: #1B6AFE;
+        --accent-muted: rgba(46, 134, 255, 0.12);
+        --accent-glow: rgba(46, 134, 255, 0.28);
+        --deep-blue: #1e3a5f;
+        --text-primary: #ffffff;
+        --text-secondary: #94a3b8;
+        --bg-white: #050508;
+        --bg-off: #0c0c12;
+        --border: rgba(148, 163, 184, 0.15);
+      }
+
+      [data-theme="light"] {
+        --navy: #050508;
+        --navy-mid: #0c0c12;
+        --accent: #007BFF;
+        --accent-light: #3399FF;
+        --accent-dark: #0056B3;
+        --accent-muted: rgba(0, 123, 255, 0.08);
+        --accent-glow: rgba(0, 123, 255, 0.18);
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --bg-white: #ffffff;
+        --bg-off: #f8fafc;
+        --border: #e2e8f0;
+      }
+
+      html { scroll-behavior: smooth; }
+      body {
+        position: relative;
+        background: var(--bg-white);
+        font-family: "Inter", -apple-system, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background 0.25s ease, color 0.25s ease;
+      }
+
+      [data-theme="dark"] body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: radial-gradient(
+          ellipse 120% 80% at 30% 100%,
+          rgba(46, 134, 255, 0.12) 0%,
+          rgba(30, 58, 95, 0.2) 40%,
+          transparent 70%
+        ), radial-gradient(
+          ellipse 80% 60% at 70% 100%,
+          rgba(30, 58, 95, 0.25) 0%,
+          transparent 60%
+        );
+      }
+
+      .content-wrapper {
+        position: relative;
+        z-index: 1;
+      }
+
+      nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+      }
+
+      /* ——— 상단 이슈 마키 (특허 획득) ——— */
+      .hero-marquee {
+        position: relative;
+        z-index: 999;
+        background: linear-gradient(90deg, var(--navy-mid) 0%, var(--accent-dark) 35%, var(--accent) 50%, var(--accent-dark) 65%, var(--navy-mid) 100%);
+        border-bottom: 2px solid var(--accent);
+        padding: 12px 0;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .hero-marquee-inner {
+        display: inline-flex;
+        align-items: center;
+        gap: 2em;
+        animation: hero-marquee-scroll 28s linear infinite;
+      }
+      .hero-marquee span {
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-shadow: 0 0 20px rgba(255,255,255,0.3);
+      }
+      @keyframes hero-marquee-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      .section {
+        padding: 80px clamp(20px, 5vw, 40px);
+        max-width: 1000px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      .section-title {
+        font-size: clamp(24px, 4vw, 32px);
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+
+      .section-subtitle {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        max-width: 640px;
+      }
+
+      /* ——— HERO ——— */
+      .hero {
+        position: relative;
+        padding: 140px clamp(24px, 6vw, 48px) 140px;
+        text-align: left;
+        max-width: 920px;
+        margin: 0 auto;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .hero-gradient-orb {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+        z-index: 0;
+      }
+      .hero-gradient-orb--1 {
+        width: min(80vw, 520px);
+        height: min(80vw, 520px);
+        top: -15%;
+        right: -18%;
+        background: radial-gradient(circle at 40% 40%, rgba(46, 134, 255, 0.42) 0%, rgba(30, 58, 95, 0.28) 45%, transparent 70%);
+        animation: hero-orb-drift 8s ease-in-out infinite;
+      }
+      .hero-gradient-orb--2 {
+        width: min(60vw, 380px);
+        height: min(60vw, 380px);
+        bottom: -20%;
+        left: -12%;
+        background: radial-gradient(circle at 60% 60%, rgba(0, 180, 170, 0.35) 0%, rgba(13, 148, 136, 0.2) 50%, transparent 72%);
+        animation: hero-orb-drift 10s ease-in-out infinite reverse;
+        animation-delay: -2s;
+      }
+      .hero-gradient-orb--3 {
+        width: min(45vw, 280px);
+        height: min(45vw, 280px);
+        top: 50%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle at 50% 50%, rgba(102, 178, 255, 0.28) 0%, rgba(46, 134, 255, 0.12) 50%, transparent 65%);
+        animation: hero-orb-float 6s ease-in-out infinite;
+      }
+      [data-theme="light"] .hero-gradient-orb--1 {
+        background: radial-gradient(circle at 40% 40%, rgba(0, 123, 255, 0.28) 0%, rgba(0, 86, 179, 0.16) 45%, transparent 70%);
+      }
+      [data-theme="light"] .hero-gradient-orb--2 {
+        background: radial-gradient(circle at 60% 60%, rgba(0, 150, 140, 0.22) 0%, rgba(13, 128, 118, 0.12) 50%, transparent 72%);
+      }
+      [data-theme="light"] .hero-gradient-orb--3 {
+        background: radial-gradient(circle at 50% 50%, rgba(51, 153, 255, 0.2) 0%, rgba(0, 123, 255, 0.08) 50%, transparent 65%);
+      }
+      @keyframes hero-orb-drift {
+        0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+        25% { transform: translate(20px, -25px) scale(1.08); opacity: 0.95; }
+        50% { transform: translate(-15px, 15px) scale(0.96); opacity: 1; }
+        75% { transform: translate(10px, 20px) scale(1.04); opacity: 0.98; }
+      }
+      @keyframes hero-orb-float {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.15); }
+      }
+      .hero .hero-tagline,
+      .hero .hero-subtext { position: relative; z-index: 1; }
+
+      @media (max-width: 768px) {
+        .hero {
+          padding: 100px 20px 100px;
+          min-height: 50vh;
+          text-align: center;
+          align-items: center;
+        }
+        .hero-subtext { max-width: none; }
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 120px;
+        background: linear-gradient(180deg, transparent, var(--accent), transparent);
+        border-radius: 2px;
+        opacity: 0.8;
+      }
+
+      @media (max-width: 768px) {
+        .hero::before { left: 50%; top: auto; bottom: 24px; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+      }
+
+      .hero-tagline {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        opacity: 0.95;
+      }
+
+      .hero-subtext {
+        font-size: clamp(36px, 6vw, 56px);
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1.2;
+        letter-spacing: -0.04em;
+        margin-bottom: 0;
+        max-width: 14ch;
+      }
+
+      .hero-subtext .hero-accent {
+        display: block;
+        margin-top: 0.15em;
+        background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 50%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      [data-theme="light"] .hero-subtext .hero-accent {
+        background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 50%, var(--accent-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-cta {
+        margin-top: 48px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent);
+        text-decoration: none;
+        transition: opacity 0.25s ease, gap 0.25s ease;
+      }
+
+      .hero-cta:hover { opacity: 0.9; gap: 16px; color: var(--accent); }
+      .hero-cta i { font-size: 14px; transition: transform 0.3s ease; }
+      .hero-cta:hover i { transform: translateX(4px); }
+
+      /* ——— 기술 패러다임 (미드 히어로) ——— */
+      .paradigm-hero {
+        padding: 100px 24px;
+        margin: 0;
+        max-width: none;
+        background: var(--bg-off);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .paradigm-hero::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--accent), rgba(46, 134, 255, 0.4));
+        opacity: 0.9;
+      }
+
+      [data-theme="dark"] .paradigm-hero::after {
+        content: "";
+        position: absolute;
+        right: -10%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40%;
+        height: 80%;
+        background: radial-gradient(ellipse at center, rgba(46, 134, 255, 0.06) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .paradigm-hero-inner {
+        max-width: 720px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .paradigm-hero .paradigm-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+
+      .paradigm-hero .paradigm-title {
+        font-size: clamp(26px, 4.5vw, 34px);
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1.3;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+      }
+
+      .paradigm-hero .paradigm-title-sub {
+        font-size: clamp(18px, 3.2vw, 22px);
+        font-weight: 600;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        letter-spacing: -0.02em;
+        margin-bottom: 24px;
+      }
+
+      .paradigm-hero .paradigm-sub {
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+
+      .paradigm-hero .paradigm-quote {
+        padding: 20px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(46, 134, 255, 0.06);
+        border-radius: 0 10px 10px 0;
+        font-size: 15px;
+        color: var(--text-primary);
+        line-height: 1.65;
+        font-weight: 500;
+      }
+
+      .paradigm-hero .paradigm-quote strong { color: var(--accent); }
+      [data-theme="light"] .paradigm-hero .paradigm-quote { background: rgba(13, 148, 136, 0.06); }
+
+      /* ——— WHO WE ARE ——— */
+      .intro-body {
+        font-size: 16px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        max-width: 640px;
+      }
+
+      /* ——— WHAT WE OPERATE ——— */
+      .ops-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 48px;
+      }
+      .ops-grid-2col { grid-template-columns: repeat(2, 1fr); }
+      @media (max-width: 900px) {
+        .ops-grid { grid-template-columns: 1fr; }
+        .ops-grid-2col { grid-template-columns: 1fr; }
+      }
+      .ops-card {
+        position: relative;
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 28px 26px 26px;
+        transition: border-color 0.25s ease, transform 0.35s ease, box-shadow 0.35s ease;
+        overflow: hidden;
+      }
+      .ops-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), rgba(46, 134, 255, 0.4));
+        opacity: 0.85;
+      }
+      .ops-card:hover {
+        border-color: var(--accent-glow);
+        box-shadow: 0 20px 40px -12px rgba(46, 134, 255, 0.15);
+      }
+      [data-theme="dark"] .ops-card:hover {
+        box-shadow: 0 20px 48px -12px rgba(0,0,0,0.4), 0 0 0 1px rgba(46, 134, 255, 0.2);
+      }
+      .ops-card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(46, 134, 255, 0.2), rgba(46, 134, 255, 0.06));
+        border: 1px solid rgba(46, 134, 255, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: var(--accent);
+      }
+      .ops-card .ops-tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .ops-card h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 14px;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+      .ops-card-logo { margin-bottom: 16px; line-height: 0; }
+      .ops-card-logo img {
+        max-width: 140px; height: auto; max-height: 48px;
+        object-fit: contain; display: block;
+      }
+      [data-theme="light"] .ops-card-logo img { filter: none; }
+      .ops-card ul { list-style: none; margin-bottom: 16px; }
+      .ops-card ul li {
+        position: relative;
+        padding-left: 18px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .ops-card ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 5px;
+        height: 5px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(46, 134, 255, 0.4);
+      }
+      .ops-card .ops-note {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+        line-height: 1.55;
+      }
+
+      /* ——— LICENSING & COMPLIANCE ——— */
+      .compliance-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        margin-top: 44px;
+      }
+      @media (max-width: 640px) {
+        .compliance-grid { grid-template-columns: 1fr; }
+      }
+      .compliance-box {
+        position: relative;
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 28px 26px;
+        transition: border-color 0.25s ease, transform 0.35s ease, box-shadow 0.35s ease;
+        overflow: hidden;
+      }
+      .compliance-box::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle at 100% 0%, rgba(46, 134, 255, 0.08) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .compliance-box h4 {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .compliance-box .compliance-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(46, 134, 255, 0.18), rgba(46, 134, 255, 0.06));
+        border: 1px solid rgba(46, 134, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--accent);
+      }
+      .compliance-box .status-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        background: rgba(46, 134, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .compliance-box .status-label {
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+      .compliance-box .status-value {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.03em;
+      }
+      .compliance-box ul { list-style: none; }
+      .compliance-box ul li {
+        position: relative;
+        padding-left: 18px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .compliance-box ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 5px;
+        height: 5px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+
+      /* ——— ECOSYSTEM ——— */
+      .ecosystem-body {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        max-width: 640px;
+        margin-top: 16px;
+      }
+
+      /* ——— WHY PARTNER ——— */
+      .partner-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 32px;
+      }
+
+      @media (max-width: 600px) {
+        .partner-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .partner-box {
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 24px;
+      }
+
+      .partner-box h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .partner-box p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      .partner-audience {
+        margin-top: 24px;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      .partner-audience strong {
+        color: var(--text-primary);
+      }
+
+      /* ——— OUR APPS (Q-Stable, Quantum-OTP, QwonPAY) ——— */
+      .apps-intro { font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; max-width: 720px; line-height: 1.75; }
+      .app-card { background: var(--bg-off); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 40px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 0; align-items: stretch; }
+      @media (max-width: 900px) { .app-card { grid-template-columns: 1fr; } }
+      .app-card.app-card--reverse { direction: rtl; }
+      .app-card.app-card--reverse > * { direction: ltr; }
+      .app-card-image {
+        position: relative;
+        min-height: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(0,0,0,0.03);
+      }
+      [data-theme="dark"] .app-card-image { background: rgba(0,0,0,0.2); }
+      .app-card-image::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        width: 60%;
+        height: 16px;
+        transform: translateX(-50%);
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, transparent 70%);
+        filter: blur(8px);
+        border-radius: 50%;
+        z-index: 0;
+      }
+      [data-theme="dark"] .app-card-image::before {
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 70%);
+      }
+      .app-card-image img {
+        position: relative;
+        z-index: 1;
+        max-width: 100%;
+        max-height: 320px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 12px;
+        filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)) drop-shadow(0 24px 40px rgba(0,0,0,0.2)) drop-shadow(0 4px 20px rgba(46, 134, 255, 0.12));
+        animation: app-card-float 3.2s ease-in-out infinite;
+      }
+      [data-theme="dark"] .app-card-image img {
+        filter: drop-shadow(0 10px 24px rgba(0,0,0,0.45)) drop-shadow(0 28px 48px rgba(0,0,0,0.35)) drop-shadow(0 8px 28px rgba(46, 134, 255, 0.15));
+      }
+      @keyframes app-card-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-16px); }
+      }
+      .reveal-stagger .app-card:nth-child(1) .app-card-image img { animation-delay: 0s; }
+      .reveal-stagger .app-card:nth-child(2) .app-card-image img { animation-delay: 0.7s; }
+      .reveal-stagger .app-card:nth-child(3) .app-card-image img { animation-delay: 1.4s; }
+      .app-card-body { padding: 32px; display: flex; flex-direction: column; justify-content: center; }
+      .app-card-tag { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 8px; letter-spacing: 0.02em; }
+      .app-card h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+      .app-card h4 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 20px 0 8px; }
+      .app-card p, .app-card ul { font-size: 14px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 12px; }
+      .app-card ul { list-style: none; padding-left: 0; }
+      .app-card ul li { position: relative; padding-left: 14px; margin-bottom: 6px; }
+      .app-card ul li::before { content: "·"; position: absolute; left: 0; font-weight: 700; color: var(--accent); }
+      .app-pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+      .app-pill { font-size: 13px; font-weight: 600; color: var(--accent); background: rgba(46, 134, 255, 0.1); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; }
+      .otp-flow { margin-top: 20px; }
+      .otp-step { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; padding: 14px 18px; background: rgba(46, 134, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; }
+      .otp-step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #0f172a; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+      .otp-step span { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+      .app-card-sub { font-size: 14px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+      .app-card.in-view { transition: border-color 0.2s ease, box-shadow 0.3s ease; }
+      .app-card.in-view:hover { border-color: var(--accent-glow); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+      [data-theme="dark"] .app-card.in-view:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(46, 134, 255, 0.12); }
+
+      /* ——— ROADMAP & VISION ——— */
+      .roadmap-intro { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; max-width: 720px; line-height: 1.75; }
+      .vision-strategy { margin-top: 24px; }
+      .vision-strategy h3 { font-size: 17px; font-weight: 700; color: var(--accent); margin-bottom: 12px; }
+      .vision-strategy ul { list-style: none; }
+      .vision-strategy li { position: relative; padding-left: 18px; margin-bottom: 10px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+      .vision-strategy li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+      .roadmap-block { margin-bottom: 40px; }
+      .roadmap-block:last-of-type { margin-bottom: 0; }
+      .roadmap-block h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+      .roadmap-block .block-tag { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 16px; }
+      .roadmap-block p, .roadmap-block ul { font-size: 14px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 12px; }
+      .roadmap-block ul { list-style: none; padding-left: 0; }
+      .roadmap-block ul li { position: relative; padding-left: 16px; margin-bottom: 8px; }
+      .roadmap-block ul li::before { content: "–"; position: absolute; left: 0; color: var(--accent); }
+
+      /* ——— 04. 글로벌 시장 확장 전략 (강화 UI) ——— */
+      .global-strategy-wrap {
+        margin-top: 48px;
+        background: linear-gradient(180deg, var(--bg-off) 0%, rgba(46, 134, 255, 0.04) 100%);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: border-color 0.25s ease, box-shadow 0.35s ease;
+      }
+      .global-strategy-wrap:hover { border-color: var(--accent-glow); box-shadow: 0 20px 48px -16px rgba(46, 134, 255, 0.12); }
+      .global-strategy-header {
+        padding: 28px 32px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .global-strategy-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+      .global-strategy-subtitle {
+        font-size: 14px;
+        color: var(--accent);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+      .global-strategy-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+      }
+      @media (max-width: 700px) { .global-strategy-grid { grid-template-columns: 1fr; } }
+      .global-strategy-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        transition: background 0.2s ease;
+      }
+      .global-strategy-grid .global-strategy-item:nth-child(2n) { border-right: none; }
+      .global-strategy-grid .global-strategy-item:nth-last-child(-n+2) { border-bottom: none; }
+      .global-strategy-grid .global-strategy-item:last-child { border-right: none; }
+      @media (max-width: 700px) {
+        .global-strategy-item { border-right: none; }
+        .global-strategy-grid .global-strategy-item:nth-last-child(1) { border-bottom: none; }
+      }
+      .global-strategy-item:hover { background: rgba(46, 134, 255, 0.06); }
+      .global-strategy-item-num {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(46, 134, 255, 0.2), rgba(46, 134, 255, 0.08));
+        border: 1px solid rgba(46, 134, 255, 0.25);
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .global-strategy-item-text {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.65;
+      }
+      .roadmap-card {
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 26px 28px;
+        margin-bottom: 20px;
+        transition: border-color 0.25s ease, box-shadow 0.35s ease;
+      }
+      .roadmap-card:hover { border-color: rgba(46, 134, 255, 0.3); box-shadow: 0 12px 28px -8px rgba(46, 134, 255, 0.1); }
+      .roadmap-card .block-tag { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.05em; }
+      .roadmap-card h4 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+      .gov-chart-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        margin-top: 24px;
+      }
+      .gov-chart-canvas-wrap {
+        flex-shrink: 0;
+        width: 220px;
+        height: 220px;
+        position: relative;
+      }
+      .gov-chart-canvas-wrap canvas { display: block; max-width: 100%; height: auto !important; }
+      .gov-chart-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-width: 200px;
+      }
+      .gov-chart-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+      }
+      .gov-chart-legend-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .gov-chart-legend-item span:last-child { color: var(--text-secondary); }
+      .gov-chart-legend-item strong { color: var(--accent); margin-left: 4px; }
+      @media (max-width: 520px) {
+        .gov-chart-wrap { flex-direction: column; }
+        .gov-chart-canvas-wrap { width: 200px; height: 200px; }
+      }
+      .token-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+      @media (max-width: 520px) { .token-grid { grid-template-columns: 1fr; } }
+      .token-item { padding: 14px 18px; background: var(--bg-off); border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+      .token-item .name { color: var(--text-secondary); }
+      .token-item .value { font-weight: 700; color: var(--text-primary); }
+      .token-item .pct { font-size: 12px; font-weight: 600; color: var(--accent); margin-left: 8px; }
+
+      /* ——— 실전 로드맵 타임라인 ——— */
+      .roadmap-timeline-wrap { margin-top: 48px; margin-bottom: 56px; }
+      .roadmap-timeline-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+      .roadmap-timeline-title::before {
+        content: "";
+        width: 4px;
+        height: 22px;
+        background: linear-gradient(180deg, var(--accent), rgba(46, 134, 255, 0.4));
+        border-radius: 2px;
+      }
+      .roadmap-timeline {
+        position: relative;
+        padding-left: 32px;
+      }
+      .roadmap-timeline::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, var(--accent) 0%, rgba(46, 134, 255, 0.3) 50%, var(--border) 100%);
+        border-radius: 1px;
+      }
+      .roadmap-milestone {
+        position: relative;
+        padding-bottom: 36px;
+      }
+      .roadmap-milestone:last-child { padding-bottom: 0; }
+      .roadmap-milestone-dot {
+        position: absolute;
+        left: -28px;
+        top: 4px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--bg-off);
+        border: 3px solid var(--accent);
+        box-shadow: 0 0 0 4px rgba(46, 134, 255, 0.15);
+        z-index: 1;
+      }
+      .roadmap-milestone.milestone-done .roadmap-milestone-dot {
+        background: var(--accent);
+        box-shadow: 0 0 16px rgba(46, 134, 255, 0.5);
+      }
+      .roadmap-milestone.milestone-now .roadmap-milestone-dot {
+        border-width: 3px;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%, 100% { box-shadow: 0 0 0 4px rgba(46, 134, 255, 0.2); }
+        50% { box-shadow: 0 0 0 10px rgba(46, 134, 255, 0.05); }
+      }
+      .roadmap-milestone-content {
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 24px;
+        transition: border-color 0.2s ease, box-shadow 0.3s ease;
+      }
+      .roadmap-milestone-content:hover {
+        border-color: var(--accent-glow);
+        box-shadow: 0 12px 32px -8px rgba(0,0,0,0.12);
+      }
+      .roadmap-milestone-year {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+      }
+      .roadmap-milestone-label {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+        line-height: 1.35;
+      }
+      .roadmap-milestone-desc {
+        font-size: 14px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+      .roadmap-milestone-badge {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        background: rgba(46, 134, 255, 0.12);
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+
+      /* ——— Development History ——— */
+      .dev-history-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; max-width: 720px; line-height: 1.7; }
+      .dev-history-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 40px;
+      }
+      @media (max-width: 900px) {
+        .dev-history-grid { grid-template-columns: 1fr; }
+      }
+      .dev-history-col {
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        position: relative;
+      }
+      .dev-history-col::before {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 24px;
+        bottom: 24px;
+        width: 2px;
+        background: linear-gradient(180deg, var(--accent), transparent);
+        border-radius: 1px;
+        opacity: 0.6;
+      }
+      .dev-history-col h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 20px;
+        padding-left: 28px;
+      }
+      .dev-history-list { list-style: none; padding-left: 28px; }
+      .dev-history-list li {
+        position: relative;
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .dev-history-list li:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+      .dev-history-list li::before {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+      .dev-history-date {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+      .dev-history-ko { display: block; }
+      .dev-history-en { display: none; }
+      html[lang="en"] .dev-history-ko { display: none; }
+      html[lang="en"] .dev-history-en { display: block; }
+
+      /* ——— 페이지 번역 (한글 원문 / 영어) ——— */
+      .t-ko { display: inline; }
+      .t-en { display: none; }
+      html[lang="en"] .t-ko { display: none; }
+      html[lang="en"] .t-en { display: inline; }
+      .tb-ko { display: block; }
+      .tb-en { display: none; }
+      html[lang="en"] .tb-ko { display: none; }
+      html[lang="en"] .tb-en { display: block; }
+
+      /* ——— 특허 및 수상 ——— */
+      .cert-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 32px;
+      }
+      @media (max-width: 900px) {
+        .cert-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      }
+      .cert-item {
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .cert-item:hover {
+        border-color: var(--accent-glow);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      }
+      .cert-item a {
+        display: block;
+        padding: 16px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .cert-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+      .cert-item .cert-caption {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-top: 12px;
+        line-height: 1.5;
+      }
+
+      /* ——— 소개 영상 ——— */
+      .intro-video-section {
+        padding: 80px clamp(20px, 5vw, 40px) 60px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .intro-video-section .section-title {
+        margin-bottom: 24px;
+      }
+      .intro-video-wrap {
+        position: relative;
+        max-width: 880px;
+        margin: 0 auto;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg-off);
+        box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.2);
+      }
+      .intro-video-wrap video {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      [data-theme="light"] .intro-video-wrap {
+        box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.08);
+      }
+      @media (max-width: 768px) {
+        .intro-video-section { padding: 60px 20px 48px; }
+      }
+
+      /* ——— CTA + CONTACT (결론·문의 통합) ——— */
+      .cta-contact-section {
+        background: linear-gradient(180deg, var(--bg-off) 0%, var(--navy-mid) 100%);
+        border-top: 1px solid var(--border);
+        padding: 80px 24px 100px;
+        max-width: none;
+      }
+
+      .cta-contact-inner {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .cta-contact-head {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .cta-contact-head .cta-title {
+        font-size: clamp(26px, 4vw, 34px);
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.03em;
+        line-height: 1.3;
+        margin-bottom: 16px;
+      }
+
+      .cta-contact-head .cta-sub {
+        font-size: 17px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        max-width: 640px;
+        margin: 0 auto 20px;
+      }
+
+      .cta-contact-quote {
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--accent);
+        padding: 12px 20px;
+        border: 1px solid rgba(46, 134, 255, 0.3);
+        border-radius: 12px;
+        background: rgba(46, 134, 255, 0.08);
+      }
+
+      .cta-contact-form-card {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 36px 32px;
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      [data-theme="light"] .cta-contact-section {
+        background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+      }
+
+      [data-theme="light"] .cta-contact-form-card {
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.08);
+      }
+
+      @media (max-width: 768px) {
+        .cta-contact-section { padding: 60px 20px 80px; }
+        .cta-contact-form-card { margin: 0 auto; padding: 28px 20px; }
+        .paradigm-hero { padding: 60px 20px; }
+        .paradigm-hero-inner { text-align: left; }
+      }
+
+      .cta-contact-form-card .form-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .cta-contact-form-card .form-desc {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+      }
+
+      .contact-section .section-subtitle {
+        margin-bottom: 24px;
+      }
+
+      .contact-form {
+        max-width: 100%;
+        margin-top: 0;
+      }
+      .contact-form .form-group {
+        margin-bottom: 18px;
+      }
+      .contact-form label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 15px;
+        font-family: inherit;
+        color: var(--text-primary);
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        transition: border-color 0.2s;
+      }
+      .contact-form input::placeholder,
+      .contact-form textarea::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.8;
+      }
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .contact-form textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .contact-form .btn-contact {
+        margin-top: 8px;
+      }
+      .contact-form .form-message {
+        font-size: 14px;
+        margin-top: 12px;
+        min-height: 20px;
+      }
+      .contact-form .form-message.success { color: var(--accent); }
+      .contact-form .form-message.error { color: #f87171; }
+
+      .contact-note {
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      /* CTA — minimal */
+      .btn-contact {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 14px 28px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--navy);
+        background: var(--accent);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .btn-contact:hover {
+        background: var(--accent-light);
+        color: var(--navy);
+      }
+
+      .btn-contact:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      [data-theme="light"] .btn-contact {
+        color: #fff;
+        background: var(--accent);
+      }
+      [data-theme="light"] .btn-contact:hover {
+        background: var(--accent-dark);
+        color: #fff;
+      }
+
+      /* ——— Intersection Observer reveal animations ——— */
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px) scale(0.98);
+        transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .reveal.reveal-scale {
+        transform: translateY(24px) scale(0.96);
+      }
+      .reveal.reveal-scale.in-view {
+        transform: translateY(0) scale(1);
+      }
+      .reveal.reveal-left { transform: translateX(-40px) scale(0.98); opacity: 0; }
+      .reveal.reveal-left.in-view { transform: translateX(0) scale(1); opacity: 1; }
+      .reveal.reveal-right { transform: translateX(40px) scale(0.98); opacity: 0; }
+      .reveal.reveal-right.in-view { transform: translateX(0) scale(1); opacity: 1; }
+      /* Staggered children: parent gets .reveal-stagger, children get .reveal */
+      .reveal-stagger .reveal {
+        opacity: 0;
+        transform: translateY(28px) scale(0.98);
+        transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal-stagger.in-view .reveal { opacity: 1; transform: translateY(0) scale(1); }
+      .reveal-stagger .reveal:nth-child(1) { transition-delay: 0.05s; }
+      .reveal-stagger .reveal:nth-child(2) { transition-delay: 0.12s; }
+      .reveal-stagger .reveal:nth-child(3) { transition-delay: 0.19s; }
+      .reveal-stagger .reveal:nth-child(4) { transition-delay: 0.26s; }
+      .reveal-stagger .reveal:nth-child(5) { transition-delay: 0.33s; }
+      .reveal-stagger .reveal:nth-child(6) { transition-delay: 0.4s; }
+      .reveal-stagger .reveal:nth-child(7) { transition-delay: 0.47s; }
+      .reveal-stagger .reveal:nth-child(8) { transition-delay: 0.54s; }
+      .reveal-stagger .reveal:nth-child(9) { transition-delay: 0.61s; }
+      .reveal-stagger .reveal:nth-child(10) { transition-delay: 0.68s; }
+      /* Card hover lift */
+      .ops-card.in-view { transition: border-color 0.25s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+      .ops-card.in-view:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -12px rgba(46, 134, 255, 0.18); }
+      [data-theme="dark"] .ops-card.in-view:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(46, 134, 255, 0.15); }
+      .partner-box.in-view { transition: border-color 0.2s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+      .partner-box.in-view:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+      [data-theme="dark"] .partner-box.in-view:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(46, 134, 255, 0.1); }
+      .compliance-box.in-view { transition: border-color 0.25s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+      .compliance-box.in-view:hover { transform: translateY(-4px); border-color: var(--accent-glow); box-shadow: 0 16px 36px -12px rgba(0,0,0,0.15); }
+      [data-theme="dark"] .compliance-box.in-view:hover { box-shadow: 0 16px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(46, 134, 255, 0.15); }
+      .dev-history-col.in-view { transition: border-color 0.2s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+      .dev-history-col.in-view:hover { transform: translateY(-2px); border-color: var(--accent-glow); }
+      .roadmap-card.in-view { transition: border-color 0.2s ease, transform 0.35s ease, box-shadow 0.35s ease; }
+      .roadmap-card.in-view:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+      [data-theme="dark"] .roadmap-card.in-view:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(46, 134, 255, 0.1); }
+    </style>
+  </head>
+
+  <body style="overflow-x: hidden; width: 100%;">
+    <%- include("./mainNav.ejs") %>
+
+    <div class="hero-marquee" aria-live="polite">
+      <div class="hero-marquee-inner">
+        <span>★ 세계 최초 양자 기반 블록체인 탄생 — 특허 획득 ★</span>
+        <span>★ World's First Quantum-Based Blockchain — Patent Acquired ★</span>
+        <span>★ 세계 최초 양자 기반 블록체인 탄생 — 특허 획득 ★</span>
+        <span>★ World's First Quantum-Based Blockchain — Patent Acquired ★</span>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- 1. HERO -->
+      <section class="hero reveal-stagger" id="hero">
+        <div class="hero-gradient-orb hero-gradient-orb--1" aria-hidden="true"></div>
+        <div class="hero-gradient-orb hero-gradient-orb--2" aria-hidden="true"></div>
+        <div class="hero-gradient-orb hero-gradient-orb--3" aria-hidden="true"></div>
+        <p class="hero-tagline reveal">Quantum Chain (QCC)</p>
+        <h1 class="hero-subtext reveal">
+          <span class="t-ko">양자 시대의</span><span class="t-en">The</span><br /><span class="hero-accent"><span class="t-ko">자산 혁명과 인프라 구축</span><span class="t-en">Asset Revolution and Infrastructure for the Quantum Era</span></span>
+        </h1>
+      </section>
+
+      <!-- 2. 기술 패러다임의 전환 (미드 히어로) -->
+      <section class="paradigm-hero section" id="paradigm">
+        <div class="paradigm-hero-inner">
+          <p class="paradigm-label reveal"><span class="t-ko">기술 패러다임의 전환</span><span class="t-en">Shift in Technology Paradigm</span></p>
+          <h2 class="paradigm-title reveal"><span class="t-ko">AI · 블록체인 · 양자컴퓨터 — 글로벌 부의 지도를 재편하는 3대 기술.</span><span class="t-en">AI, blockchain, and quantum computing — three technologies reshaping the global map of wealth.</span></h2>
+          <p class="paradigm-title-sub reveal"><span class="t-ko">양자 보안이 군사·금융·통신의 핵심 인프라로 자리했다.</span><span class="t-en">Quantum security is now core infrastructure for defense, finance, and communications.</span></p>
+          <p class="paradigm-sub reveal"><span class="t-ko">"지금 수집하고 나중에 해독한다(Harvest Now, Decrypt Later)" — 양자 위협이 이미 시작되었고, 기존 블록체인(ECDSA)은 구조적 취약에 노출되어 있다. 자산 이전의 <strong>결정적 타이밍</strong>이 도래했다.</span><span class="t-en">"Harvest Now, Decrypt Later" — the quantum threat has already begun, and existing blockchains (ECDSA) are exposed to structural vulnerabilities. The <strong>decisive moment</strong> for moving assets has arrived.</span></p>
+          <div class="paradigm-quote reveal">
+            <strong>Harvest Now, Decrypt Later.</strong> <span class="t-ko">양자 시대, 가장 안전한 네트워크로 자산을 옮겨야 할 때다.</span><span class="t-en">In the quantum era, it is time to move assets to the most secure network.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Quantum Application -->
+      <section class="section" id="apps">
+        <h2 class="section-title reveal">Quantum Application</h2>
+        <p class="apps-intro reveal"><span class="t-ko">퀀텀체인 기반 결제·지갑·인증 앱으로, 실시간 결제부터 양자 보안 인증까지 하나의 생태계로 연결됩니다.</span><span class="t-en">Quantum Chain–based payment, wallet, and authentication apps — from real-time payments to quantum-secure authentication, all connected in one ecosystem.</span></p>
+        <div class="reveal-stagger">
+          <div class="app-card reveal">
+            <div class="app-card-image">
+              <img src="/images/a1.png" alt="Q-Stable Wallet 앱 화면 - 시동 정보 설정" loading="lazy" />
+            </div>
+            <div class="app-card-body">
+              <span class="app-card-tag">01</span>
+              <h3>Q-Stable Wallet</h3>
+              <h4>What is Q-Stable Wallet?</h4>
+              <ul>
+                <li><span class="t-ko">Quantum Chain 기반 차세대 스테이블 지갑 앱</span><span class="t-en">Next-generation stable wallet app on Quantum Chain</span></li>
+                <li><span class="t-ko">실시간 결제 · 송금 · 자산 보관 · 투자 통합 관리</span><span class="t-en">Real-time payment, transfer, custody, and investment in one place</span></li>
+                <li><span class="t-ko">모바일 환경에서도 양자 보안 체계 유지</span><span class="t-en">Quantum security maintained on mobile</span></li>
+              </ul>
+              <h4>One Wallet, All Assets</h4>
+              <ul>
+                <li><span class="t-ko">Quantum OTP 인증 기술 적용</span><span class="t-en">Quantum OTP authentication</span></li>
+                <li><span class="t-ko">양자 난수 기반 1회성 인증 구조</span><span class="t-en">One-time auth using quantum randomness</span></li>
+                <li><span class="t-ko">기존 지갑 대비 구조적으로 강화된 보안</span><span class="t-en">Structurally stronger security than conventional wallets</span></li>
+              </ul>
+              <div class="app-pill-row">
+                <span class="app-pill"><span class="t-ko">결제</span><span class="t-en">Payment</span></span>
+                <span class="app-pill"><span class="t-ko">보관</span><span class="t-en">Storage</span></span>
+                <span class="app-pill"><span class="t-ko">송금</span><span class="t-en">Transfer</span></span>
+                <span class="app-pill"><span class="t-ko">투자</span><span class="t-en">Investment</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="app-card app-card--reverse reveal">
+            <div class="app-card-image">
+              <img src="/images/a2.png" alt="Quantum-OTP 인증 화면 - Key Verification" loading="lazy" />
+            </div>
+            <div class="app-card-body">
+              <span class="app-card-tag">02</span>
+              <h3>Quantum-OTP</h3>
+              <p><span class="t-ko">Q-Stable Wallet · Quantum OTP 인증 구조</span><span class="t-en">Q-Stable Wallet · Quantum OTP authentication flow</span></p>
+              <div class="otp-flow">
+                <div class="otp-step">
+                  <span><strong>Secure Key Issuance</strong> — <span class="t-ko">Q-Stable Wallet에서 개인 암호키 발급</span><span class="t-en">Private key issuance from Q-Stable Wallet</span></span>
+                </div>
+                <div class="otp-step">
+                  <span><strong>Key Verification</strong> — <span class="t-ko">앱 접속 시 발급된 암호키 입력</span><span class="t-en">Enter issued key on app access</span></span>
+                </div>
+                <div class="otp-step">
+                  <span><strong>Secure Access Granted</strong> — <span class="t-ko">OTP 검증 후 지갑 기능 활성화</span><span class="t-en">Wallet features enabled after OTP verification</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="app-card reveal">
+            <div class="app-card-image">
+              <img src="/images/a3.png" alt="QwonPAY 결제 앱 - QCC 가격 및 가맹점" loading="lazy" />
+            </div>
+            <div class="app-card-body">
+              <span class="app-card-tag">03</span>
+              <h3>QwonPAY</h3>
+              <p class="app-card-sub">Quantum-Based Payment Application</p>
+              <p><span class="t-ko">등록된 매장에서 언제든지 안전한 실시간 결제</span><span class="t-en">Secure real-time payment at registered merchants anytime</span></p>
+              <ul>
+                <li><span class="t-ko">Quantum Chain 기반 실사용 결제(PAY) 전용 앱</span><span class="t-en">Dedicated payment app on Quantum Chain</span></li>
+                <li><span class="t-ko">등록된 오프라인·온라인 매장에서 즉시 결제 가능</span><span class="t-en">Instant payment at registered offline and online stores</span></li>
+                <li><span class="t-ko">지갑·결제·상점 네트워크가 하나로 연결된 구조</span><span class="t-en">Wallet, payment, and merchant network in one</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 퀀텀체인의 혁신 기술 -->
+      <section class="section" id="innovation">
+        <h2 class="section-title reveal"><span class="t-ko">퀀텀체인의 혁신 기술</span><span class="t-en">Quantum Chain Innovation</span></h2>
+        <p class="section-subtitle reveal"><span class="t-ko">양자역학 원리를 블록체인 엔진에 직접 적용한 세계 최초 양자 전제 설계 메인넷</span><span class="t-en">World's first quantum-by-design mainnet applying quantum mechanics to the blockchain engine</span></p>
+
+        <div class="ops-grid ops-grid-2col reveal-stagger">
+          <div class="ops-card reveal">
+            <div class="ops-card-icon"><i class="fas fa-link"></i></div>
+            <div class="ops-tag">01</div>
+            <h3><span class="t-ko">퀀텀체인이란?</span><span class="t-en">What is Quantum Chain?</span></h3>
+            <p class="intro-body" style="margin-bottom: 0;"><span class="t-ko">양자 전제 설계 메인넷. 세계 최초로 양자컴퓨터를 활용한 양자 공격을 가정한 설계로, 보안·속도·탈중앙화 트릴레마를 동시에 해결하는 미래 자산 인프라입니다.</span><span class="t-en">A quantum-by-design mainnet. The world's first design assuming quantum attacks; future asset infrastructure that addresses the security–speed–decentralization trilemma.</span></p>
+          </div>
+          <div class="ops-card reveal">
+            <div class="ops-card-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="ops-tag"><span class="t-ko">02 · 양자 저항 보안(PQC)</span><span class="t-en">02 · PQC</span></div>
+            <h3>Quantum-Resistant by Design</h3>
+            <ul>
+              <li><span class="t-ko">양자 기반 암호(Lattice-based PQC) 채택</span><span class="t-en">Lattice-based PQC adoption</span></li>
+              <li><span class="t-ko">공개키 노출 전제 보안 구조, 기존 ECDSA 대비 양자 공격 내성 확보</span><span class="t-en">Security by design with public-key exposure; quantum attack resistance vs. ECDSA</span></li>
+              <li><span class="t-ko">장기 자산 저장에 적합한 구조</span><span class="t-en">Suitable for long-term asset storage</span></li>
+            </ul>
+          </div>
+          <div class="ops-card reveal">
+            <div class="ops-card-icon"><i class="fas fa-bolt"></i></div>
+            <div class="ops-tag"><span class="t-ko">03 · Q-PoW 합의 알고리즘</span><span class="t-en">03 · Q-PoW</span></div>
+            <h3>Speed · Efficiency · Security</h3>
+            <ul>
+              <li><span class="t-ko">Quantum Random Sampling(QRS) 검증, 다중 블록 동시 검증 구조</span><span class="t-en">QRS verification; multi-block verification</span></li>
+              <li><span class="t-ko">GPU 채굴 효율 극대화, 트래픽 병목 구조적 해결</span><span class="t-en">Maximized GPU mining efficiency; structural relief of traffic bottlenecks</span></li>
+            </ul>
+          </div>
+          <div class="ops-card reveal">
+            <div class="ops-card-icon"><i class="fas fa-brain"></i></div>
+            <div class="ops-tag"><span class="t-ko">04 · AI 융합 엔진</span><span class="t-en">04 · AI Engine</span></div>
+            <h3>AI + Blockchain + Quantum 통합</h3>
+            <ul>
+              <li><span class="t-ko">노드 자체가 AI 연산 유닛 역할, 데이터 처리 → 보상 구조 내재화</span><span class="t-en">Nodes as AI compute units; data processing and reward structure</span></li>
+              <li><span class="t-ko">양자 연산으로 AI 처리 가속</span><span class="t-en">Quantum-accelerated AI processing</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 시장 경쟁력 및 기술 우위 구조 -->
+      <section class="section" id="market">
+        <h2 class="section-title reveal"><span class="t-ko">시장 경쟁력 및 기술 우위 구조</span><span class="t-en">Market Competitiveness & Technology Edge</span></h2>
+
+        <div class="roadmap-block reveal" style="margin-top: 24px;">
+          <h3><span class="t-ko">01. 세대별 블록체인 비교: BTC · ETH · QCC</span><span class="t-en">01. Blockchain comparison: BTC · ETH · QCC</span></h3>
+          <p class="roadmap-intro"><span class="t-ko">Quantum Chain의 차별성: 세계 최초로 양자컴퓨터를 활용한 양자 공격을 가정한 설계. 공개키 노출을 전제로 한 보안, AI·미래 연산 환경과 결합 가능, 장기 자산 저장에 적합한 구조.</span><span class="t-en">Quantum Chain differentiator: world's first design assuming quantum attacks. Security by design with public-key exposure; compatible with AI and future compute; suited for long-term asset storage.</span></p>
+          <div class="vision-strategy">
+            <ul>
+              <li><strong><span class="t-ko">설계 전제:</span><span class="t-en">Design premise:</span></strong> <span class="t-ko">BTC·ETH는 고전 컴퓨팅, QCC는 양자 전체 설계</span><span class="t-en">BTC/ETH classical; QCC quantum-by-design</span></li>
+              <li><strong><span class="t-ko">암호 구조:</span><span class="t-en">Crypto:</span></strong> <span class="t-ko">ECDSA/BLS 대비 QCC는 PQC(양자 공격 대응 암호 체계)</span><span class="t-en">QCC uses PQC vs. ECDSA/BLS</span></li>
+              <li><strong><span class="t-ko">역할:</span><span class="t-en">Role:</span></strong> <span class="t-ko">디지털 금 · 스마트 계약을 넘어 미래 자산 인프라</span><span class="t-en">Future asset infrastructure beyond digital gold and smart contracts</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="roadmap-block reveal">
+          <h3><span class="t-ko">02. 자산 보호의 새로운 기준과 기관 수요</span><span class="t-en">02. New standard for asset protection & institutional demand</span></h3>
+          <p class="roadmap-intro"><span class="t-ko">“자산은 가장 안전한 네트워크로 이동합니다.” 2026년 큐데이(Q-Day, 양자 보안 시작일) 임박에 따른 기관 투자자들의 양자 저항 자산 선호. 장기 보관 자산 → 양자 내성 체인 이동, 보험·연기금 등 보수적 자산군 선호.</span><span class="t-en">"Assets move to the safest network." With Q-Day (2026) approaching, institutional demand for quantum-resistant assets is rising; long-term custody is shifting to quantum-resistant chains; conservative allocators (insurance, pensions) prefer such assets.</span></p>
+        </div>
+
+        <div class="roadmap-block reveal">
+          <h3><span class="t-ko">03. 맥스피아 ICT 기술 해자 및 특허 전략</span><span class="t-en">03. Maxpia ICT moat & patent strategy</span></h3>
+          <ul class="vision-strategy" style="margin-top: 12px;">
+            <li><span class="t-ko">국내 최초 블록체인 벤처인증</span><span class="t-en">Korea's first blockchain venture certification</span></li>
+            <li><span class="t-ko">양자 블록체인 핵심 특허 확보</span><span class="t-en">Core quantum blockchain patents</span></li>
+            <li><span class="t-ko">양자 지갑·OTP·합의 알고리즘 특허</span><span class="t-en">Quantum wallet, OTP, consensus algorithm patents</span></li>
+            <li><span class="t-ko">R&D → 상용 네트워크까지 자체 구축</span><span class="t-en">In-house from R&D to production network</span></li>
+          </ul>
+        </div>
+
+        <h3 class="section-title reveal" style="margin-top: 40px;" id="certifications"><span class="t-ko">03-1. 특허증 및 인증서</span><span class="t-en">03-1. Patents & Certifications</span></h3>
+        <div class="cert-grid reveal-stagger">
+          <div class="cert-item reveal">
+            <a href="/images/1.png" target="_blank" rel="noopener">
+              <img src="/images/1.png" alt="2022 대한민국 국가사회산업 공헌대상 블록체인 부문" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">2022 국가사회산업 공헌대상 (블록체인 부문)</span><span class="t-en">2022 National Social Industry Contribution Award (Blockchain)</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/2.png" target="_blank" rel="noopener">
+              <img src="/images/2.png" alt="기업부설연구소 인정서" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">기업부설연구소 인정서</span><span class="t-en">Corporate Research Lab Certification</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/3.png" target="_blank" rel="noopener">
+              <img src="/images/3.png" alt="벤처기업확인서" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">벤처기업확인서 (연구개발유형)</span><span class="t-en">Venture Enterprise Certificate (R&D)</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/4.png" target="_blank" rel="noopener">
+              <img src="/images/4.png" alt="특허증 - 전자화폐 거래 감시방법" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">특허: 전자화폐 거래 감시방법</span><span class="t-en">Patent: Cryptocurrency Transaction Monitoring</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/5.png" target="_blank" rel="noopener">
+              <img src="/images/5.png" alt="특허증 - 전자화폐 채굴시스템" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">특허: 전자화폐 채굴시스템</span><span class="t-en">Patent: Cryptocurrency Mining System</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/6.png" target="_blank" rel="noopener">
+              <img src="/images/6.png" alt="특허증 - 전자화폐를 이용한 전자 상거래방법" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">특허: 전자화폐를 이용한 전자 상거래방법</span><span class="t-en">Patent: E-Commerce Using Cryptocurrency</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/7.png" target="_blank" rel="noopener">
+              <img src="/images/7.png" alt="특허증 - 양자컴퓨터 기반 PoS 블록체인 네트워크 제어방법" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">특허: 양자 기반 PoS 블록체인 네트워크 제어방법</span><span class="t-en">Patent: Quantum PoS Blockchain Network Control</span></span>
+            </a>
+          </div>
+          <div class="cert-item reveal">
+            <a href="/images/8.png" target="_blank" rel="noopener">
+              <img src="/images/8.png" alt="특허증 - 양자컴퓨터 기반 PoW 블록체인 네트워크 제어방법" loading="lazy" />
+              <span class="cert-caption"><span class="t-ko">특허: 양자 기반 PoW 블록체인 네트워크 제어방법</span><span class="t-en">Patent: Quantum PoW Blockchain Network Control</span></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="global-strategy-wrap reveal">
+          <div class="global-strategy-header">
+            <h3 class="global-strategy-title"><span class="t-ko">04. 케이퀀텀홀딩스 글로벌 시장 확장 전략</span><span class="t-en">04. K-Quantum Holdings Global Market Expansion</span></h3>
+            <p class="global-strategy-subtitle"><span class="t-ko">[기술가치 × 시장가치] 맥스피아ICT와 케이퀀텀홀딩스가 만드는 글로벌 비전</span><span class="t-en">[Technology × Market] Global vision by Maxpia ICT and K-Quantum Holdings</span></p>
+          </div>
+          <div class="global-strategy-grid">
+            <div class="global-strategy-item"><span class="global-strategy-item-num">1</span><span class="global-strategy-item-text"><span class="t-ko">퀀텀체인의 국내 가격 레벨업으로 존재감 부각 → 국내 거래소 상장으로 국내 투자자 접근성 제고</span><span class="t-en">Raise profile via domestic price level-up; list on domestic exchanges for investor access</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">2</span><span class="global-strategy-item-text"><span class="t-ko">필리핀 온라인 게임, 용감한 형제들 기타 RWA 프로젝트 유치 등 퀀텀체인 사용 유저 확보</span><span class="t-en">Grow user base via Philippines online gaming, Brave Brothers, and other RWA projects</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">3</span><span class="global-strategy-item-text"><span class="t-ko">마스터카드사와 사용 제휴 확대를 통해 퀀텀체인의 환금성과 사용 용도를 넓혀 유저 수 확보</span><span class="t-en">Expand liquidity and use cases via Mastercard partnership; grow users</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">4</span><span class="global-strategy-item-text"><span class="t-ko">국내외 퀀텀체인 런칭 세미나 개최</span><span class="t-en">Quantum Chain launch seminars domestically and abroad</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">5</span><span class="global-strategy-item-text"><span class="t-ko">블록체인·양자컴퓨터 분야 학계·업계 전문가와 산학 연계를 기반으로 언론 홍보 실시</span><span class="t-en">Media outreach with academia and industry experts in blockchain and quantum</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">6</span><span class="global-strategy-item-text"><span class="t-ko">글로벌 밋업 행사 및 기자 간담회 개최</span><span class="t-en">Global meetups and press briefings</span></span></div>
+            <div class="global-strategy-item"><span class="global-strategy-item-num">7</span><span class="global-strategy-item-text"><span class="t-ko">글로벌 거래소 상장 및 협업 마케팅 활동</span><span class="t-en">Global exchange listings and partnership marketing</span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. 사업 모델 및 생태계 전략 -->
+      <section class="section" id="business">
+        <h2 class="section-title reveal"><span class="t-ko">사업 모델 및 생태계 전략</span><span class="t-en">Business Model & Ecosystem Strategy</span></h2>
+
+        <div class="roadmap-card reveal">
+          <div class="block-tag">01</div>
+          <h4>RWA 실물자산 토큰화 플랫폼 · Real Assets on Quantum Chain</h4>
+          <p><span class="t-ko">희귀 광물(텅스텐, 티타늄), 탄소 배출권 등 고가치 자산의 퀀텀체인 내 온체인화 모델.</span><span class="t-en">On-chain tokenization of high-value assets (rare minerals, carbon credits) on Quantum Chain.</span></p>
+          <ul>
+            <li><span class="t-ko">희귀 광물 (텅스텐, 티타늄)</span><span class="t-en">Rare minerals (tungsten, titanium)</span></li>
+            <li><span class="t-ko">탄소배출권 → 온체인 유통 연계 가능 구조</span><span class="t-en">Carbon credits → on-chain distribution</span></li>
+            <li><span class="t-ko">실물 기반 가치 · 기관 투자 연계</span><span class="t-en">Real-asset value and institutional investment</span></li>
+          </ul>
+        </div>
+
+        <div class="roadmap-card reveal">
+          <div class="block-tag">02</div>
+          <h4><span class="t-ko">글로벌 멀티체인 및 국가별 확장 전략</span><span class="t-en">Global multichain & country expansion</span></h4>
+          <p><span class="t-ko">기술 표준화와 로컬 최적화를 통한 글로벌 블록체인 생태계 구축</span><span class="t-en">Global blockchain ecosystem via standardization and local optimization</span></p>
+          <ul>
+            <li><strong><span class="t-ko">기술적 확장:</span><span class="t-en">Technical:</span></strong> <span class="t-ko">Mainnet 연동(Solana 기반 고속 네트워크, USDT 사이드체인 연동), 이종 체인 간 멀티체인 브릿지</span><span class="t-en">Mainnet links (Solana, USDT sidechain), multichain bridges</span></li>
+            <li><strong><span class="t-ko">시장 최적화:</span><span class="t-en">Market:</span></strong> <span class="t-ko">국가별 법정화폐 연동 스테이블코인 발행 지원, 로컬 맞춤형 컴플라이언스 모듈</span><span class="t-en">Stablecoin issuance per jurisdiction; local compliance modules</span></li>
+            <li><strong><span class="t-ko">실증 사업:</span><span class="t-en">Pilots:</span></strong> <span class="t-ko">두바이(VARA 기반 제도권 연동), 태국(관광·결제 인프라), 베트남(송금·핀테크)</span><span class="t-en">Dubai (VARA), Thailand (tourism/payment), Vietnam (remittance/fintech)</span></li>
+          </ul>
+        </div>
+
+        <div class="roadmap-card reveal">
+          <div class="block-tag">03</div>
+          <h4><span class="t-ko">다각화된 수익 모델 구조</span><span class="t-en">Diversified revenue model</span></h4>
+          <ul>
+            <li><strong><span class="t-ko">플랫폼·트랜잭션:</span><span class="t-en">Platform:</span></strong> <span class="t-ko">네트워크 수수료, RWA 플랫폼 수수료(발행·유통), 크로스체인 브릿지 이용료</span><span class="t-en">Network fees, RWA platform fees, bridge fees</span></li>
+            <li><strong><span class="t-ko">인프라·B2B:</span><span class="t-en">Infrastructure:</span></strong> <span class="t-ko">엔터프라이즈 블록체인 인프라·라이선스, White-Label 스테이블코인·RWA 플랫폼, API 유료화</span><span class="t-en">Enterprise infra, white-label stablecoin/RWA, API monetization</span></li>
+            <li><strong><span class="t-ko">노드·운용:</span><span class="t-en">Nodes:</span></strong> <span class="t-ko">노드 임대·스테이킹(BaaS), AI 데이터 센터 인프라 서비스, 온체인 빅데이터 인사이트</span><span class="t-en">Node leasing, staking (BaaS), AI datacenter, on-chain analytics</span></li>
+          </ul>
+        </div>
+
+        <div class="roadmap-card reveal">
+          <div class="block-tag">04</div>
+          <h4><span class="t-ko">퍼블릭 채굴 기반 거버넌스 설계</span><span class="t-en">Public mining–based governance</span></h4>
+          <p><span class="t-ko">재단(5%)과 퍼블릭 채굴자(80%)가 상생하는 공정·투명 지배구조. 전세계 채굴 오픈을 통한 분산화로 네트워크 확장과 안전망 구축.</span><span class="t-en">Fair, transparent governance: foundation (5%) and public miners (80%). Global open mining for decentralization and network growth.</span></p>
+          <div class="gov-chart-wrap reveal">
+            <div class="gov-chart-canvas-wrap">
+              <canvas id="govChart" width="220" height="220" aria-label="Governance ratio chart"></canvas>
+            </div>
+            <div class="gov-chart-legend">
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#2E86FF;"></span><span class="t-ko">퍼블릭 채굴</span><span class="t-en">Public mining</span><strong>80%</strong></div>
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#3399FF;"></span><span class="t-ko">초기 생태계 구축</span><span class="t-en">Ecosystem</span><strong>5%</strong></div>
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#1B6AFE;"></span><span class="t-ko">재단</span><span class="t-en">Foundation</span><strong>5%</strong></div>
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#0056B3;"></span><span>R&D</span><strong>5%</strong></div>
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#004C99;"></span><span class="t-ko">마케팅</span><span class="t-en">Marketing</span><strong>4%</strong></div>
+              <div class="gov-chart-legend-item"><span class="gov-chart-legend-dot" style="background:#003D7A;"></span><span class="t-ko">ESG·사회복지 기금</span><span class="t-en">ESG & social fund</span><strong>1%</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. 토크노믹스 및 로드맵 -->
+      <section class="section" id="roadmap">
+        <h2 class="section-title reveal"><span class="t-ko">토크노믹스 및 성장 로드맵</span><span class="t-en">Tokenomics & Growth Roadmap</span></h2>
+        <p class="section-subtitle reveal"><span class="t-ko">총 30억 개 기준 토큰 분배 구조</span><span class="t-en">Token allocation (3 billion total)</span></p>
+        <div class="token-grid reveal-stagger">
+          <div class="token-item reveal"><span class="name"><span class="t-ko">퍼블릭 채굴</span><span class="t-en">Public mining</span></span><span class="value">2.4B <span class="pct">80%</span></span></div>
+          <div class="token-item reveal"><span class="name"><span class="t-ko">초기 생태계 구축</span><span class="t-en">Ecosystem</span></span><span class="value">150M <span class="pct">5%</span></span></div>
+          <div class="token-item reveal"><span class="name"><span class="t-ko">재단 경영진</span><span class="t-en">Foundation</span></span><span class="value">150M <span class="pct">5%</span></span></div>
+          <div class="token-item reveal"><span class="name">R&D</span><span class="value">150M <span class="pct">5%</span></span></div>
+          <div class="token-item reveal"><span class="name"><span class="t-ko">마케팅</span><span class="t-en">Marketing</span></span><span class="value">120M <span class="pct">4%</span></span></div>
+          <div class="token-item reveal"><span class="name"><span class="t-ko">ESG·사회복지 기금</span><span class="t-en">ESG & social fund</span></span><span class="value">30M <span class="pct">1%</span></span></div>
+        </div>
+
+        <div class="roadmap-timeline-wrap reveal">
+          <h3 class="roadmap-timeline-title"><span class="t-ko">로드맵 타임라인</span><span class="t-en">Roadmap timeline</span></h3>
+          <div class="roadmap-timeline reveal-stagger">
+            <div class="roadmap-milestone milestone-done reveal">
+              <span class="roadmap-milestone-dot"></span>
+              <div class="roadmap-milestone-content">
+                <div class="roadmap-milestone-year">2022 – 2024</div>
+                <div class="roadmap-milestone-label"><span class="t-ko">R&D · 메인넷 개발 · 채굴 개시</span><span class="t-en">R&D · Mainnet development · Mining launch</span></div>
+                <p class="roadmap-milestone-desc"><span class="t-ko">양자컴퓨터 블록체인 연구 개발(3년), 퀀텀체인 메인넷 개발 완료, 블록 채굴 개시.</span><span class="t-en">Quantum blockchain R&D (3 years), Quantum Chain mainnet complete, block mining started.</span></p>
+              </div>
+            </div>
+            <div class="roadmap-milestone milestone-now reveal">
+              <span class="roadmap-milestone-dot"></span>
+              <div class="roadmap-milestone-content">
+                <div class="roadmap-milestone-year">2025 <span class="roadmap-milestone-badge"><span class="t-ko">진행 중</span><span class="t-en">Ongoing</span></span></div>
+                <div class="roadmap-milestone-label"><span class="t-ko">테스트넷 · 상장 · 특허</span><span class="t-en">Testnet · Listings · Patents</span></div>
+                <p class="roadmap-milestone-desc"><span class="t-ko">양자내성 암호화 메인넷 개발 · 테스트넷 운영 · 8큐비트 양자컴퓨터 도입 · 코인마켓캡·Lbank 상장 · 양자 POW/POS 네트워크 특허 승인.</span><span class="t-en">PQC mainnet, testnet, 8-qubit quantum computer, CoinMarketCap/Lbank listing, quantum PoW/PoS patent approval.</span></p>
+              </div>
+            </div>
+            <div class="roadmap-milestone reveal">
+              <span class="roadmap-milestone-dot"></span>
+              <div class="roadmap-milestone-content">
+                <div class="roadmap-milestone-year">2026</div>
+                <div class="roadmap-milestone-label"><span class="t-ko">지갑 · 양자 확장 · 상장 추진</span><span class="t-en">Wallet · Quantum scale · Listing push</span></div>
+                <p class="roadmap-milestone-desc"><span class="t-ko">양자 OTP 특허 출원 · 20+20큐비트 클라우드 도입 · 세계 최초 양자컴퓨터 지갑 공개 · 양자통신 개발 · AI 데이터센터·코스닥 상장 추진.</span><span class="t-en">Quantum OTP patent application, 20+20 qubit cloud, world's first quantum wallet, quantum comms, AI datacenter, KOSDAQ listing.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. 개발 연혁 -->
+      <section class="section" id="development-history">
+        <h2 class="section-title reveal"><span class="dev-history-ko">개발 연혁</span><span class="dev-history-en">Development History</span></h2>
+        <p class="dev-history-sub reveal">
+          <span class="dev-history-ko">양자역학 원리를 블록체인 엔진에 직접 적용한 세계 최초 양자 전제 설계 메인넷</span>
+          <span class="dev-history-en">World's first quantum-fully designed mainnet that directly applies quantum mechanics principles to the blockchain engine</span>
+        </p>
+        <div class="dev-history-grid reveal-stagger">
+          <div class="dev-history-col reveal">
+            <h3>2022~2024</h3>
+            <ul class="dev-history-list">
+              <li>
+                <div class="dev-history-date">2022.8 ~ 2024.7</div>
+                <span class="dev-history-ko">양자컴퓨터 블록체인 연구 개발 (3년 소요)</span>
+                <span class="dev-history-en">Quantum Computer Blockchain R&D (3 years)</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2024.8</div>
+                <span class="dev-history-ko">퀀텀 체인 메인넷 개발 완료</span>
+                <span class="dev-history-en">Quantum Chain Mainnet Development Completed</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2024.10</div>
+                <span class="dev-history-ko">퀀텀체인 블록 채굴 개시</span>
+                <span class="dev-history-en">Quantum Chain Block Mining Commenced</span>
+              </li>
+            </ul>
+          </div>
+          <div class="dev-history-col reveal">
+            <h3>2025</h3>
+            <ul class="dev-history-list">
+              <li>
+                <div class="dev-history-date">2025.1.23</div>
+                <span class="dev-history-ko">양자컴퓨터 8큐비트 도입</span>
+                <span class="dev-history-en">Introduction of 8-qubit Quantum Computer</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2025.3.4</div>
+                <span class="dev-history-ko">퀀텀체인 코인마켓캡 등록</span>
+                <span class="dev-history-en">Quantum Chain CoinMarketCap Registration</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2025.4.24</div>
+                <span class="dev-history-ko">퀀텀체인 Lbank 거래소 상장 거래</span>
+                <span class="dev-history-en">Quantum Chain Lbank Exchange Listing</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2025.11.14</div>
+                <span class="dev-history-ko">양자컴퓨터 POW/POS 방식 세계 최초 네트워크 특허 승인</span>
+                <span class="dev-history-en">World's first network patent approval for Quantum Computer POW/POS method</span>
+              </li>
+            </ul>
+          </div>
+          <div class="dev-history-col reveal">
+            <h3>2026</h3>
+            <ul class="dev-history-list">
+              <li>
+                <div class="dev-history-date">2026.1.2</div>
+                <span class="dev-history-ko">세계 최초 양자컴퓨터 지갑 양자 OTP 특허 출원 신청</span>
+                <span class="dev-history-en">World's first quantum computer wallet, Quantum OTP patent application filed</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2026.3 <span class="dev-history-ko">예정</span><span class="dev-history-en">Scheduled</span></div>
+                <span class="dev-history-ko">양자컴퓨터 20큐비트+20큐비트 (클라우드) 도입</span>
+                <span class="dev-history-en">Introduction of 20-qubit + 20-qubit Quantum Computer (Cloud)</span>
+              </li>
+              <li>
+                <div class="dev-history-date">2026.3 <span class="dev-history-ko">예정</span><span class="dev-history-en">Scheduled</span></div>
+                <span class="dev-history-ko">세계 최초 양자컴퓨터 지갑 공개</span>
+                <span class="dev-history-en">World's first quantum computer wallet released</span>
+              </li>
+              <li>
+                <span class="dev-history-ko">양자통신 개발</span>
+                <span class="dev-history-en">Quantum Communication Development</span>
+              </li>
+              <li>
+                <span class="dev-history-ko">양자컴퓨터 AI 데이터 센터 구축 등 – 코스닥 상장 추진</span>
+                <span class="dev-history-en">Quantum Computer AI Data Center construction, etc. – KOSDAQ listing promoted</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. 소개 영상 -->
+      <section class="section intro-video-section" id="intro-video">
+        <h2 class="section-title reveal"><span class="t-ko">소개 영상</span><span class="t-en">Intro Video</span></h2>
+        <p class="section-subtitle reveal" style="margin-bottom: 32px;"><span class="t-ko">퀀텀체인과 K-Quantum 홀딩스를 소개합니다.</span><span class="t-en">Introducing Quantum Chain and K-Quantum Holdings.</span></p>
+        <div class="intro-video-wrap reveal">
+          <div class="tb-ko">
+            <video src="/videos/kr.mp4" controls playsinline preload="metadata" aria-label="소개 영상 (한국어)">한국어 소개 영상을 재생할 수 없습니다.</video>
+          </div>
+          <div class="tb-en">
+            <video src="/videos/eng.mp4" controls playsinline preload="metadata" aria-label="Intro video (English)">Your browser does not support the video tag.</video>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. CTA + Contact (결론·문의 통합) -->
+      <section class="section cta-contact-section contact-section" id="contact">
+        <div class="cta-contact-inner">
+          <div class="cta-contact-head reveal">
+            <h2 class="cta-title"><span class="t-ko">양자 시대 자산 인프라의 관문</span><span class="t-en">Gateway to Quantum-Era Asset Infrastructure</span></h2>
+            <p class="cta-sub"><span class="t-ko">퀀텀체인은 단기 테마 자산이 아닙니다. 다가오는 양자시대에서 자산이 존재할 수 있는 기반을 선점하는 인프라 투자입니다. 세계 최초 양자 블록체인, 기술적 독점 구조, 퍼블릭 채굴 참여 기회.</span><span class="t-en">Quantum Chain is not a short-term thematic asset. It is infrastructure investment that secures the foundation for assets in the coming quantum era — the world's first quantum blockchain, technical moat, and public mining participation.</span></p>
+            <p class="cta-contact-quote"><span class="t-ko">"퀀텀체인은 양자시대의 관문입니다."</span><span class="t-en">"Quantum Chain is the gateway to the quantum era."</span></p>
+          </div>
+          <div class="cta-contact-form-card reveal">
+            <h3 class="form-title"><span class="t-ko">문의하기</span><span class="t-en">Contact</span></h3>
+            <p class="form-desc"><span class="t-ko">사업·파트너십 문의를 남겨 주시면 담당자가 빠르게 연락드립니다.</span><span class="t-en">Leave your business or partnership inquiry and we will get back to you promptly.</span></p>
+            <form class="contact-form" id="contactForm">
+              <div class="form-group">
+                <label for="contactName"><span class="t-ko">이름</span><span class="t-en">Name</span> <span style="color: var(--accent);">*</span></label>
+                <input type="text" id="contactName" name="name" required placeholder="" data-placeholder-ko="이름을 입력하세요" data-placeholder-en="Enter your name" />
+              </div>
+              <div class="form-group">
+                <label for="contactPhone"><span class="t-ko">연락처</span><span class="t-en">Phone</span> <span style="color: var(--accent);">*</span></label>
+                <input type="tel" id="contactPhone" name="phone" required placeholder="" data-placeholder-ko="연락 가능한 번호" data-placeholder-en="Contact number" />
+              </div>
+              <div class="form-group">
+                <label for="contactEmail"><span class="t-ko">이메일</span><span class="t-en">Email</span> <span style="color: var(--accent);">*</span></label>
+                <input type="email" id="contactEmail" name="email" required placeholder="" data-placeholder-ko="답변 받을 이메일" data-placeholder-en="Email for reply" />
+              </div>
+              <div class="form-group">
+                <label for="contactMessage"><span class="t-ko">문의 내용</span><span class="t-en">Message</span> <span style="color: var(--accent);">*</span></label>
+                <textarea id="contactMessage" name="message" required placeholder="" data-placeholder-ko="파트너십, 채굴, 투자 등 문의 내용을 자유롭게 적어 주세요." data-placeholder-en="Partnership, mining, investment, or other inquiries."></textarea>
+              </div>
+              <p class="form-message" id="contactFormMessage" aria-live="polite"></p>
+              <button type="submit" class="btn-contact" id="contactSubmitBtn"><span class="t-ko">문의 보내기</span><span class="t-en">Send inquiry</span></button>
+            </form>
+          </div>
+          <p class="contact-note reveal" style="text-align: center; margin-top: 20px;"><span class="t-ko">개인 투자·소비자 문의는 별도 안내를 참고해 주세요.</span><span class="t-en">For individual investment or consumer inquiries, please refer to separate guidance.</span></p>
+        </div>
+      </section>
+    </div>
+
+    <%- include("footer.ejs") %>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", function() {
+        // Hash scroll: when opening /#section-id from another page, scroll to section
+        var hash = window.location.hash;
+        if (hash) {
+          var el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        // Intersection Observer: trigger slightly before element enters view for smoother feel
+        var revealObserver = new IntersectionObserver(
+          function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+              }
+            });
+          },
+          { threshold: 0.05, rootMargin: "0px 0px 80px 0px" }
+        );
+
+        document.querySelectorAll(".reveal").forEach(function(el) {
+          if (!el.closest(".reveal-stagger")) revealObserver.observe(el);
+        });
+
+        var staggerObserver = new IntersectionObserver(
+          function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                entry.target.querySelectorAll(".reveal").forEach(function(r) { r.classList.add("in-view"); });
+              }
+            });
+          },
+          { threshold: 0.05, rootMargin: "0px 0px 80px 0px" }
+        );
+        document.querySelectorAll(".reveal-stagger").forEach(function(c) { staggerObserver.observe(c); });
+
+        // Hero: staggered entrance on load
+        var hero = document.getElementById("hero");
+        if (hero) {
+          requestAnimationFrame(function() {
+            hero.classList.add("in-view");
+            var heroReveals = hero.querySelectorAll(".reveal");
+            heroReveals.forEach(function(r, i) {
+              r.style.transitionDelay = (i * 0.08) + "s";
+            });
+          });
+        }
+
+        // Governance doughnut chart (Chart.js)
+        var govCanvas = document.getElementById("govChart");
+        var govChartInstance = null;
+        if (govCanvas && typeof Chart !== "undefined") {
+          var govLabelsKo = ["퍼블릭 채굴", "초기 생태계 구축", "재단", "R&D", "마케팅", "ESG·사회복지 기금"];
+          var govLabelsEn = ["Public mining", "Ecosystem", "Foundation", "R&D", "Marketing", "ESG & social fund"];
+          govChartInstance = new Chart(govCanvas, {
+            type: "doughnut",
+            data: {
+              labels: document.documentElement.getAttribute("lang") === "en" ? govLabelsEn : govLabelsKo,
+              datasets: [{
+                data: [80, 5, 5, 5, 4, 1],
+                backgroundColor: ["#2E86FF", "#3399FF", "#1B6AFE", "#0056B3", "#004C99", "#003D7A"],
+                borderWidth: 0,
+                hoverOffset: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              cutout: "58%",
+              animation: { animateRotate: true, animateScale: true },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: function(ctx) { return ctx.label + " " + ctx.raw + "%"; }
+                  }
+                }
+              }
+            }
+          });
+          var govLangObs = new MutationObserver(function() {
+            if (govChartInstance && document.getElementById("govChart")) {
+              govChartInstance.data.labels = document.documentElement.getAttribute("lang") === "en" ? govLabelsEn : govLabelsKo;
+              govChartInstance.update();
+            }
+          });
+          govLangObs.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+        }
+
+        // Contact form: placeholders from data-placeholder-ko / data-placeholder-en
+        function setContactPlaceholders() {
+          var lang = document.documentElement.getAttribute("lang") === "en" ? "en" : "ko";
+          var key = "data-placeholder-" + lang;
+          document.querySelectorAll("#contactForm [data-placeholder-ko]").forEach(function(el) {
+            var val = el.getAttribute(key);
+            if (val) el.placeholder = val;
+          });
+        }
+        setContactPlaceholders();
+        var langObs = new MutationObserver(function() {
+          setContactPlaceholders();
+          document.querySelectorAll(".intro-video-wrap video").forEach(function(v) { v.pause(); });
+        });
+        langObs.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+
+        // Contact form submit
+        var contactForm = document.getElementById("contactForm");
+        if (contactForm) {
+          contactForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            var msgEl = document.getElementById("contactFormMessage");
+            var btn = document.getElementById("contactSubmitBtn");
+            var btnOriginalHtml = btn ? btn.innerHTML : "";
+            var isEn = document.documentElement.getAttribute("lang") === "en";
+            var name = document.getElementById("contactName").value.trim();
+            var phone = document.getElementById("contactPhone").value.trim();
+            var email = document.getElementById("contactEmail").value.trim();
+            var message = document.getElementById("contactMessage").value.trim();
+            if (!name || !phone || !email || !message) {
+              if (msgEl) { msgEl.textContent = isEn ? "Please fill in all fields." : "모든 항목을 입력해 주세요."; msgEl.className = "form-message error"; }
+              return;
+            }
+            if (btn) { btn.disabled = true; btn.innerHTML = isEn ? "Sending…" : "전송 중…"; }
+            if (msgEl) { msgEl.textContent = ""; msgEl.className = "form-message"; }
+            fetch("/api/contact", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name: name, phone: phone, email: email, message: message })
+            })
+              .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+              .then(function(result) {
+                if (result.ok && result.data && result.data.success) {
+                  if (msgEl) { msgEl.textContent = isEn ? "Your inquiry has been submitted. We will contact you soon." : "문의가 접수되었습니다. 담당자가 연락드리겠습니다."; msgEl.className = "form-message success"; }
+                  contactForm.reset();
+                  setContactPlaceholders();
+                } else {
+                  if (msgEl) { msgEl.textContent = result.data && result.data.message ? result.data.message : (isEn ? "Submission failed. Please try again later." : "전송에 실패했습니다. 잠시 후 다시 시도해 주세요."); msgEl.className = "form-message error"; }
+                }
+              })
+              .catch(function() {
+                if (msgEl) { msgEl.textContent = isEn ? "Submission failed. Please try again later." : "전송에 실패했습니다. 잠시 후 다시 시도해 주세요."; msgEl.className = "form-message error"; }
+              })
+              .finally(function() {
+                if (btn) {
+                  btn.disabled = false;
+                  btn.innerHTML = btnOriginalHtml;
+                }
+              });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

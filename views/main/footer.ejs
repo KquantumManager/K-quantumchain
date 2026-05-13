@@ -1,0 +1,236 @@
+<footer>
+  <style>
+    footer {
+      padding: 48px 24px 32px !important;
+      margin-top: 60px !important;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+    [data-theme="dark"] footer {
+      background: #050508 !important;
+      border-top: 1px solid rgba(46, 134, 255, 0.15) !important;
+    }
+    [data-theme="light"] footer {
+      background: #ffffff !important;
+      border-top: 1px solid #e2e8f0 !important;
+    }
+
+    .footer-content {
+      max-width: 1000px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 32px !important;
+    }
+
+    .footer-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      flex-wrap: wrap !important;
+      gap: 32px !important;
+    }
+
+    .footer-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+    .footer-brand-logo {
+      flex-shrink: 0 !important;
+      line-height: 0 !important;
+    }
+    .footer-brand-logo img {
+      width: 36px !important;
+      height: 36px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+    .footer-brand-name {
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      color: #ffffff !important;
+    }
+    .footer-brand-sub {
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.05em !important;
+      color: #94a3b8 !important;
+      margin-top: 2px !important;
+    }
+    [data-theme="light"] .footer-brand-name { color: #0f172a !important; }
+    [data-theme="light"] .footer-brand-sub { color: #475569 !important; }
+
+    .footer-links {
+      display: flex !important;
+      gap: 24px !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+    }
+
+    .footer-links a {
+      color: #94a3b8 !important;
+      text-decoration: none !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      transition: color 0.2s ease !important;
+      padding: 6px 0 !important;
+    }
+
+    .footer-links a:hover { color: #2E86FF !important; }
+    [data-theme="light"] .footer-links a { color: #475569 !important; }
+    [data-theme="light"] .footer-links a:hover { color: #007BFF !important; }
+
+    .footer-social {
+      display: flex !important;
+      gap: 12px !important;
+      align-items: center !important;
+    }
+
+    .footer-social a {
+      width: 40px !important;
+      height: 40px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: #94a3b8 !important;
+      background: rgba(12, 12, 18, 0.8) !important;
+      border: 1px solid rgba(45, 212, 191, 0.15) !important;
+      border-radius: 10px !important;
+      text-decoration: none !important;
+      font-size: 16px !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .footer-social a:hover {
+      background: rgba(46, 134, 255, 0.2) !important;
+      color: #2E86FF !important;
+      border-color: rgba(46, 134, 255, 0.35) !important;
+    }
+    [data-theme="light"] .footer-social a { color: #475569 !important; background: #f1f5f9 !important; border-color: #e2e8f0 !important; }
+    [data-theme="light"] .footer-social a:hover { background: rgba(0, 123, 255, 0.1) !important; color: #007BFF !important; }
+
+    .footer-addresses {
+      width: 100% !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 24px 48px !important;
+      justify-content: center !important;
+      font-size: 13px !important;
+      line-height: 1.65 !important;
+    }
+    .footer-address-item {
+      color: #94a3b8 !important;
+    }
+    [data-theme="light"] .footer-address-item { color: #475569 !important; }
+    .footer-address-item strong {
+      color: #e2e8f0 !important;
+      font-weight: 600 !important;
+      margin-right: 6px !important;
+    }
+    [data-theme="light"] .footer-address-item strong { color: #0f172a !important; }
+    .footer-address-item a {
+      color: #94a3b8 !important;
+      text-decoration: none !important;
+    }
+    .footer-address-item a:hover { color: #2E86FF !important; }
+    [data-theme="light"] .footer-address-item a:hover { color: #007BFF !important; }
+
+    .footer-divider {
+      width: 100% !important;
+      height: 1px !important;
+      background: rgba(46, 134, 255, 0.12) !important;
+    }
+    [data-theme="light"] .footer-divider { background: #e2e8f0 !important; }
+
+    .copyright {
+      text-align: center !important;
+      color: #64748b !important;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+    }
+
+    .copyright span {
+      display: block !important;
+      margin-top: 4px !important;
+      font-size: 12px !important;
+      color: #475569 !important;
+    }
+    [data-theme="light"] .copyright { color: #64748b !important; }
+    [data-theme="light"] .copyright span { color: #94a3b8 !important; }
+
+    @media (max-width: 768px) {
+      footer {
+        padding: 40px 20px 28px !important;
+        margin-top: 40px !important;
+      }
+
+      .footer-top {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 24px !important;
+      }
+
+      .footer-addresses {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 16px !important;
+      }
+
+      .footer-links {
+        justify-content: center !important;
+        gap: 20px !important;
+      }
+
+      .footer-social {
+        justify-content: center !important;
+      }
+
+      .copyright {
+        font-size: 12px !important;
+      }
+    }
+
+    footer .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    footer .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <div class="footer-content reveal">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="footer-brand-logo" style="text-decoration: none;"><img src="/images/logo.png" alt="K-Quantum Holdings" /></a>
+        <div>
+          <div class="footer-brand-name">K QUANTUM HOLDINGS</div>
+          <div class="footer-brand-sub">HOLDINGS COMPANY LTD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-addresses">
+      <div class="footer-address-item">
+        <strong>본사</strong> 경기도 광주시 도척면 도척로 517-6
+      </div>
+      <div class="footer-address-item">
+        <strong>지사</strong> 서울특별시 강남구 선릉로 91길 8 리키글로벌빌딩 3층, 5층
+        <span style="margin-left: 8px;">·</span>
+        <a href="tel:02-6204-1238">02-6204-1238</a>, <a href="tel:02-6204-1239">02-6204-1239</a>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="copyright">
+      © 2025 K-Quantum Holdings. All rights reserved.
+    </div>
+  </div>
+</footer>

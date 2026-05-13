@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 목록 - 관리자</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      body { font-family: "Pretendard", sans-serif; background: #f8fafc; }
+      .admin-main h1 { color: #1a237e; }
+    </style>
+  </head>
+  <body>
+    <div class="admin-layout">
+      <%- include("./adminNav.ejs") %>
+      <main class="admin-main">
+        <div class="container py-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h4 mb-0" style="font-weight: 700;">게시글 목록</h1>
+            <a href="/admin/boardWrite" class="btn btn-primary" style="background: #007BFF; border: none;"><i class="fas fa-pen me-1"></i> 글 쓰기</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:60px">번호</th>
+                  <th>카테고리</th>
+                  <th>제목</th>
+                  <th style="width:140px">작성일</th>
+                  <th style="width:120px">관리</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (!posts || posts.length === 0) { %>
+                <tr><td colspan="5" class="text-center text-muted py-4">등록된 글이 없습니다.</td></tr>
+                <% } else { posts.forEach(function(p, i){ %>
+                <tr>
+                  <td><%= posts.length - i %></td>
+                  <td><%= p.categoryName %></td>
+                  <td><a href="/board/post/<%= p._id %>" target="_blank" class="text-decoration-none text-dark"><%= p.title %></a></td>
+                  <td class="text-muted small"><%= new Date(p.createdAt).toLocaleDateString('ko-KR') %></td>
+                  <td>
+                    <a href="/admin/boardEdit/<%= p._id %>" class="btn btn-sm btn-outline-secondary me-1">수정</a>
+                    <form action="/admin/boardDelete" method="post" class="d-inline" onsubmit="return confirm('이 글을 삭제할까요?');">
+                      <input type="hidden" name="id" value="<%= p._id %>" />
+                      <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                    </form>
+                  </td>
+                </tr>
+                <% }); } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+      </main>
+    </div>
+  </body>
+</html>

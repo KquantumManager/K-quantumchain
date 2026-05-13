@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include("../main/head.ejs", { title: "게시판 - K-Quantum Holdings" }) %>
+    <style>
+      body { font-family: "Inter", -apple-system, sans-serif; margin: 0; overflow-x: hidden; }
+      [data-theme="dark"] { --board-page-bg: #050508; --board-page-text: #f1f5f9; }
+      [data-theme="light"] { --board-page-bg: #ffffff; --board-page-text: #0f172a; }
+      body { background: var(--board-page-bg); color: var(--board-page-text); transition: background 0.25s ease, color 0.25s ease; }
+      [data-theme="dark"] .board-wrap { --b-bg: #0c0c12; --b-border: rgba(148,163,184,0.15); --b-text: #f1f5f9; --b-muted: #94a3b8; }
+      [data-theme="light"] .board-wrap { --b-bg: #f8fafc; --b-border: #e2e8f0; --b-text: #0f172a; --b-muted: #64748b; }
+      .board-wrap { max-width: 900px; width: 100%; margin: 0 auto; padding: 40px 24px; min-height: 60vh; box-sizing: border-box; }
+      .board-title { font-size: 1.75rem; font-weight: 700; color: var(--b-text); margin-bottom: 24px; word-wrap: break-word; }
+      .board-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+      .board-tabs a { padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; background: var(--b-bg); color: var(--b-muted); border: 1px solid var(--b-border); }
+      .board-tabs a:hover { color: #3b82f6; border-color: rgba(59,130,246,0.3); }
+      .board-tabs a.active { background: rgba(59,130,246,0.1); color: #3b82f6; border-color: rgba(59,130,246,0.3); }
+      [data-theme="light"] .board-tabs a.active { color: #2563eb; }
+      .board-list { border: 1px solid var(--b-border); border-radius: 12px; overflow: hidden; background: var(--b-bg); }
+      .board-list-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+      .board-list table { width: 100%; min-width: 320px; border-collapse: collapse; }
+      .board-list th, .board-list td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--b-border); color: var(--b-text); font-size: 14px; }
+      .board-list th { font-weight: 600; color: var(--b-muted); background: rgba(0,0,0,0.03); }
+      [data-theme="dark"] .board-list th { background: rgba(255,255,255,0.04); }
+      .board-list tr:last-child td { border-bottom: none; }
+      .board-list tr:hover td { background: rgba(59,130,246,0.04); }
+      .board-list a { color: inherit; text-decoration: none; }
+      .board-list a:hover { color: #3b82f6; }
+      [data-theme="light"] .board-list a:hover { color: #2563eb; }
+      .board-list .board-row-link { display: flex; align-items: center; gap: 12px; min-width: 0; }
+      .board-list .board-thumb { flex-shrink: 0; width: 56px; height: 56px; border-radius: 8px; overflow: hidden; border: 1px solid var(--b-border); background: rgba(0,0,0,0.2); }
+      [data-theme="light"] .board-list .board-thumb { background: #e2e8f0; }
+      .board-list .board-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .board-list .board-row-title { min-width: 0; flex: 1; line-height: 1.4; }
+      .board-list .col-cat { width: 100px; color: var(--b-muted); }
+      .board-list .col-date { width: 110px; color: var(--b-muted); font-size: 13px; }
+      .board-empty { padding: 48px 24px; text-align: center; color: var(--b-muted); }
+      .board-paging { display: flex; justify-content: center; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+      .board-paging a, .board-paging span { padding: 8px 14px; border-radius: 8px; text-decoration: none; font-size: 14px; border: 1px solid var(--b-border); background: var(--b-bg); color: var(--b-muted); }
+      .board-paging a:hover { color: #3b82f6; border-color: rgba(59,130,246,0.3); }
+      [data-theme="light"] .board-paging a:hover { color: #2563eb; }
+      .board-paging .current { background: rgba(59,130,246,0.15); color: #3b82f6; border-color: rgba(59,130,246,0.3); }
+      [data-theme="light"] .board-paging .current { color: #2563eb; }
+        @media (max-width: 576px) {
+        .board-wrap { padding: 24px 16px; }
+        .board-list th, .board-list td { padding: 10px 12px; font-size: 13px; }
+        .board-list .col-cat { width: 80px; }
+        .board-list .col-date { width: 90px; font-size: 12px; }
+        .board-list .board-thumb { width: 44px; height: 44px; }
+      }
+      .board-ko { display: block; }
+      .board-en { display: none; }
+      html[lang="en"] .board-ko { display: none; }
+      html[lang="en"] .board-en { display: block; }
+    </style>
+  </head>
+  <body>
+    <%- include("../main/mainNav.ejs") %>
+    <div class="board-wrap">
+      <h1 class="board-title"><span class="board-ko">게시판</span><span class="board-en">Board</span></h1>
+      <div class="board-tabs">
+        <a href="/board" class="<%= !currentCategory ? 'active' : '' %>"><span class="board-ko">전체</span><span class="board-en">All</span></a>
+        <% categories.forEach(function(c){ %>
+        <a href="/board?category=<%= c._id %>" class="<%= currentCategory === c._id.toString() ? 'active' : '' %>"><span class="board-ko"><%= c.name %></span><span class="board-en"><%= c.nameEn || c.name %></span></a>
+        <% }); %>
+      </div>
+      <div class="board-list">
+        <% if (posts.length === 0) { %>
+        <div class="board-empty"><span class="board-ko">등록된 글이 없습니다.</span><span class="board-en">No posts yet.</span></div>
+        <% } else { %>
+        <div class="board-list-table-wrap">
+        <table>
+          <thead>
+            <tr><th class="col-cat"><span class="board-ko">카테고리</span><span class="board-en">Category</span></th><th><span class="board-ko">제목</span><span class="board-en">Title</span></th><th class="col-date"><span class="board-ko">작성일</span><span class="board-en">Date</span></th></tr>
+          </thead>
+          <tbody>
+            <% posts.forEach(function(p){ %>
+            <tr>
+              <td class="col-cat"><span class="board-ko"><%= p.categoryName %></span><span class="board-en"><%= p.categoryNameEn %></span></td>
+              <td>
+                <a href="/board/post/<%= p._id %>" class="board-row-link">
+                  <% if (p.images && p.images.length && p.images[0]) { %>
+                  <span class="board-thumb"><img src="<%= p.images[0] %>" alt="" loading="lazy" decoding="async" /></span>
+                  <% } %>
+                  <span class="board-row-title"><span class="board-ko"><%= p.title || '-' %></span><span class="board-en"><%= (p.titleEn || p.title) || '-' %></span></span>
+                </a>
+              </td>
+              <td class="col-date"><%= new Date(p.createdAt).toLocaleDateString('ko-KR') %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        </div>
+        <% } %>
+      </div>
+      <% if (totalPages > 1) { %>
+      <div class="board-paging">
+        <% if (page > 1) { %>
+        <a href="/board?category=<%= currentCategory %>&page=<%= page - 1 %>"><span class="board-ko">이전</span><span class="board-en">Prev</span></a>
+        <% } %>
+        <% for (var i = 1; i <= totalPages; i++) { %>
+        <% if (i === page) { %><span class="current"><%= i %></span><% } else { %><a href="/board?category=<%= currentCategory %>&page=<%= i %>"><%= i %></a><% } %>
+        <% } %>
+        <% if (page < totalPages) { %>
+        <a href="/board?category=<%= currentCategory %>&page=<%= page + 1 %>"><span class="board-ko">다음</span><span class="board-en">Next</span></a>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+    <%- include("../main/footer.ejs") %>
+  </body>
+</html>
