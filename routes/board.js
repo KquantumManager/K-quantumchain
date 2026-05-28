@@ -16,20 +16,53 @@ function looksLikeRichHtml(s) {
   return /<(p|div|ul|ol|h[1-6]|a|img|blockquote|span|br|strong|em|b|i)[\s>/]/i.test(String(s));
 }
 
-/** 이스케이프된 본문에서 http(s) URL을 클릭 가능 링크로 (문장 끝 구두점은 링크 밖으로) */
-function linkifyEscaped(escaped) {
-  return escaped.replace(/https?:\/\/[^\s<]+/g, function (url) {
-    var clean = url.replace(/[.,;:!?)'\]]+$/g, "");
-    var tail = url.slice(clean.length);
+const URL_IN_TEXT_RE = /https?:\/\/[^\s<]+/g;
+
+function trimUrlTrailingPunctuation(url) {
+  var clean = url.replace(/[.,;:!?)'\]]+$/g, "");
+  return { clean: clean, tail: url.slice(clean.length) };
+}
+
+function hrefFromDisplayUrl(displayUrl) {
+  return escapeHtml(String(displayUrl).replace(/&amp;/gi, "&"));
+}
+
+/** 텍스트(이스케이프 전/후) 안의 http(s) URL을 <a>로 변환 */
+function linkifyUrlsInText(text) {
+  return text.replace(URL_IN_TEXT_RE, function (url) {
+    var parts = trimUrlTrailingPunctuation(url);
     return (
       '<a href="' +
-      clean +
+      hrefFromDisplayUrl(parts.clean) +
       '" target="_blank" rel="noopener noreferrer">' +
-      clean +
+      parts.clean +
       "</a>" +
-      tail
+      parts.tail
     );
   });
+}
+
+/** 이스케이프된 본문에서 http(s) URL을 클릭 가능 링크로 */
+function linkifyEscaped(escaped) {
+  return linkifyUrlsInText(escaped);
+}
+
+/** Quill 등 HTML 본문: 기존 <a>는 유지하고, 태그 사이 텍스트의 URL만 링크화 */
+function linkifyHtmlContent(html) {
+  var savedAnchors = [];
+  var safe = html.replace(/<a\b[\s\S]*?<\/a>/gi, function (block) {
+    var token = "@@BOARD_ANCHOR_" + savedAnchors.length + "@@";
+    savedAnchors.push(block);
+    return token;
+  });
+  safe = safe.replace(/>([^<]+)</g, function (match, text) {
+    if (!/https?:\/\//i.test(text)) return match;
+    return ">" + linkifyUrlsInText(text) + "<";
+  });
+  savedAnchors.forEach(function (block, i) {
+    safe = safe.split("@@BOARD_ANCHOR_" + i + "@@").join(block);
+  });
+  return safe;
 }
 
 function formatBoardBody(str) {
@@ -42,8 +75,9 @@ function formatBoardBody(str) {
       .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "");
     html = html.replace(/<a\s+([^>]*?)>/gi, function (full, inner) {
       if (/\btarget\s*=/i.test(inner)) return full;
-      return "<a target=\"_blank\" rel=\"noopener noreferrer\" " + inner + ">";
+      return '<a target="_blank" rel="noopener noreferrer" ' + inner + ">";
     });
+    html = linkifyHtmlContent(html);
     return html;
   }
   var escaped = escapeHtml(raw).replace(/\r\n|\n|\r/g, "<br />");
