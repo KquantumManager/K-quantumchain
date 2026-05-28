@@ -1465,6 +1465,28 @@
         width: 100%;
         height: auto;
       }
+      .site-popup-footer {
+        padding: 12px 16px 16px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-off);
+        text-align: center;
+      }
+      .site-popup-hide-week {
+        border: none;
+        background: none;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 8px;
+        transition: color 0.2s ease, background 0.2s ease;
+      }
+      .site-popup-hide-week:hover {
+        color: var(--text-primary);
+        background: rgba(46, 134, 255, 0.08);
+      }
       body.site-popup-open {
         overflow: hidden;
       }
@@ -1477,9 +1499,15 @@
       <div class="site-popup-panel">
         <h2 id="sitePopupTitle" class="visually-hidden"><span class="t-ko">공지 팝업</span><span class="t-en">Notice</span></h2>
         <button type="button" class="site-popup-close" data-popup-close aria-label="닫기">&times;</button>
-        <a href="https://blog.naver.com/kbepakr/224281830681" target="_blank" rel="noopener noreferrer" class="site-popup-link">
+        <a href="https://blog.naver.com/kbepakr/224281830681" target="_blank" rel="noopener noreferrer" class="site-popup-link" id="sitePopupLink">
           <img src="/images/popup1.png" alt="한국블록체인기업진흥협회 관련 안내" width="520" height="auto" />
         </a>
+        <div class="site-popup-footer">
+          <button type="button" class="site-popup-hide-week" id="sitePopupHide7d">
+            <span class="t-ko">7일간 표시 안 함</span>
+            <span class="t-en">Don't show for 7 days</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1991,15 +2019,36 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", function() {
-        // 입장 팝업
+        // 입장 팝업 (세션당 1회, 7일 숨김 옵션)
         (function() {
           var popup = document.getElementById("sitePopup");
           if (!popup) return;
+
+          var SESSION_KEY = "kquantum_popup_shown";
+          var HIDE_UNTIL_KEY = "kquantum_popup_hide_until";
+          var SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+          function shouldShowPopup() {
+            var hideUntil = localStorage.getItem(HIDE_UNTIL_KEY);
+            if (hideUntil && Number(hideUntil) > Date.now()) return false;
+            if (sessionStorage.getItem(SESSION_KEY)) return false;
+            return true;
+          }
+
+          function markPopupShown() {
+            sessionStorage.setItem(SESSION_KEY, "1");
+          }
+
+          function hidePopupFor7Days() {
+            localStorage.setItem(HIDE_UNTIL_KEY, String(Date.now() + SEVEN_DAYS_MS));
+            markPopupShown();
+          }
 
           function openPopup() {
             popup.hidden = false;
             popup.classList.add("is-open");
             document.body.classList.add("site-popup-open");
+            markPopupShown();
           }
 
           function closePopup() {
@@ -2012,11 +2061,24 @@
             el.addEventListener("click", closePopup);
           });
 
+          var hide7dBtn = document.getElementById("sitePopupHide7d");
+          if (hide7dBtn) {
+            hide7dBtn.addEventListener("click", function() {
+              hidePopupFor7Days();
+              closePopup();
+            });
+          }
+
+          var popupLink = document.getElementById("sitePopupLink");
+          if (popupLink) {
+            popupLink.addEventListener("click", markPopupShown);
+          }
+
           document.addEventListener("keydown", function(e) {
             if (e.key === "Escape" && popup.classList.contains("is-open")) closePopup();
           });
 
-          openPopup();
+          if (shouldShowPopup()) openPopup();
         })();
 
         // Hash scroll: when opening /#section-id from another page, scroll to section
