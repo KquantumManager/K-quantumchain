@@ -1397,10 +1397,92 @@
       .roadmap-card.in-view { transition: border-color 0.2s ease, transform 0.35s ease, box-shadow 0.35s ease; }
       .roadmap-card.in-view:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
       [data-theme="dark"] .roadmap-card.in-view:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(46, 134, 255, 0.1); }
+
+      /* ——— 입장 팝업 ——— */
+      .site-popup {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+      .site-popup.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .site-popup-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(5, 5, 8, 0.72);
+        backdrop-filter: blur(4px);
+      }
+      .site-popup-panel {
+        position: relative;
+        z-index: 1;
+        max-width: min(520px, 92vw);
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.45);
+        background: var(--bg-white);
+      }
+      .site-popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(5, 5, 8, 0.65);
+        color: #fff;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+      }
+      .site-popup-close:hover {
+        background: rgba(5, 5, 8, 0.85);
+      }
+      .site-popup-link {
+        display: block;
+        line-height: 0;
+      }
+      .site-popup-link img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      body.site-popup-open {
+        overflow: hidden;
+      }
     </style>
   </head>
 
   <body style="overflow-x: hidden; width: 100%;">
+    <div id="sitePopup" class="site-popup" role="dialog" aria-modal="true" aria-labelledby="sitePopupTitle" hidden>
+      <div class="site-popup-backdrop" data-popup-close></div>
+      <div class="site-popup-panel">
+        <h2 id="sitePopupTitle" class="visually-hidden"><span class="t-ko">공지 팝업</span><span class="t-en">Notice</span></h2>
+        <button type="button" class="site-popup-close" data-popup-close aria-label="닫기">&times;</button>
+        <a href="https://blog.naver.com/kbepakr/224281830681" target="_blank" rel="noopener noreferrer" class="site-popup-link">
+          <img src="/images/popup1.png" alt="한국블록체인기업진흥협회 관련 안내" width="520" height="auto" />
+        </a>
+      </div>
+    </div>
+
     <%- include("./mainNav.ejs") %>
 
     <div class="hero-marquee" aria-live="polite">
@@ -1909,6 +1991,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", function() {
+        // 입장 팝업
+        (function() {
+          var popup = document.getElementById("sitePopup");
+          if (!popup) return;
+
+          function openPopup() {
+            popup.hidden = false;
+            popup.classList.add("is-open");
+            document.body.classList.add("site-popup-open");
+          }
+
+          function closePopup() {
+            popup.classList.remove("is-open");
+            popup.hidden = true;
+            document.body.classList.remove("site-popup-open");
+          }
+
+          popup.querySelectorAll("[data-popup-close]").forEach(function(el) {
+            el.addEventListener("click", closePopup);
+          });
+
+          document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape" && popup.classList.contains("is-open")) closePopup();
+          });
+
+          openPopup();
+        })();
+
         // Hash scroll: when opening /#section-id from another page, scroll to section
         var hash = window.location.hash;
         if (hash) {
