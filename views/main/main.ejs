@@ -1076,26 +1076,93 @@
       .intro-video-section .section-title {
         margin-bottom: 24px;
       }
+      .intro-video-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 24px;
+        align-items: start;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .intro-video-player {
+        min-width: 0;
+        width: 100%;
+      }
       .intro-video-wrap {
         position: relative;
-        max-width: 880px;
-        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
         border-radius: 16px;
         overflow: hidden;
         border: 1px solid var(--border);
         background: var(--bg-off);
         box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.2);
+        line-height: 0;
+      }
+      .intro-video-wrap .tb-ko,
+      .intro-video-wrap .tb-en {
+        width: 100%;
       }
       .intro-video-wrap video {
         display: block;
         width: 100%;
+        max-width: 100%;
         height: auto;
+        vertical-align: top;
+        object-fit: contain;
+        background: #000;
       }
       [data-theme="light"] .intro-video-wrap {
         box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.08);
       }
+      .intro-video-tags {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-self: start;
+      }
+      .intro-video-tag {
+        width: 100%;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.45;
+        color: var(--text-secondary);
+        background: var(--bg-off);
+        border: 1px solid var(--border);
+        padding: 12px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      }
+      .intro-video-tag:hover {
+        color: var(--text-primary);
+        border-color: rgba(46, 134, 255, 0.35);
+      }
+      .intro-video-tag.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(46, 134, 255, 0.1);
+        box-shadow: 0 0 0 1px rgba(46, 134, 255, 0.15);
+      }
       @media (max-width: 768px) {
         .intro-video-section { padding: 60px 20px 48px; }
+        .intro-video-layout {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .intro-video-player { order: 1; }
+        .intro-video-tags {
+          order: 2;
+          width: 100%;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .intro-video-tag {
+          flex: 1 1 calc(50% - 5px);
+          min-width: 140px;
+        }
       }
 
       /* ——— CTA + CONTACT (결론·문의 통합) ——— */
@@ -1764,12 +1831,38 @@
       <section class="section intro-video-section" id="intro-video">
         <h2 class="section-title reveal"><span class="t-ko">소개 영상</span><span class="t-en">Intro Video</span></h2>
         <p class="section-subtitle reveal" style="margin-bottom: 32px;"><span class="t-ko">퀀텀체인과 K-Quantum 홀딩스를 소개합니다.</span><span class="t-en">Introducing Quantum Chain and K-Quantum Holdings.</span></p>
-        <div class="intro-video-wrap reveal">
-          <div class="tb-ko">
-            <video src="/videos/kr.mp4" controls playsinline preload="metadata" aria-label="소개 영상 (한국어)">한국어 소개 영상을 재생할 수 없습니다.</video>
+        <div class="intro-video-layout reveal">
+          <div class="intro-video-player">
+            <div class="intro-video-wrap">
+              <div class="tb-ko">
+                <video id="introVideoKo" src="/videos/kr.mp4" controls playsinline preload="metadata" aria-label="K퀀텀홀딩스 소개">한국어 소개 영상을 재생할 수 없습니다.</video>
+              </div>
+              <div class="tb-en">
+                <video id="introVideoEn" src="/videos/eng.mp4" controls playsinline preload="metadata" aria-label="About K-Quantum Holdings">Your browser does not support the video tag.</video>
+              </div>
+            </div>
           </div>
-          <div class="tb-en">
-            <video src="/videos/eng.mp4" controls playsinline preload="metadata" aria-label="Intro video (English)">Your browser does not support the video tag.</video>
+          <div class="intro-video-tags" role="tablist" aria-label="소개 영상 목록">
+            <button type="button" class="intro-video-tag active" role="tab" aria-selected="true" data-src-ko="/videos/kr.mp4" data-src-en="/videos/eng.mp4" data-label-ko="K퀀텀홀딩스 소개" data-label-en="About K-Quantum Holdings">
+              <span class="t-ko">K퀀텀홀딩스 소개</span>
+              <span class="t-en">About K-Quantum Holdings</span>
+            </button>
+            <button type="button" class="intro-video-tag" role="tab" aria-selected="false" data-src="/videos/K퀀텀홀딩스 SBS 출연본.mp4" data-label-ko="K퀀텀홀딩스 SBS 출연본" data-label-en="K-Quantum Holdings on SBS">
+              <span class="t-ko">K퀀텀홀딩스 SBS 출연본</span>
+              <span class="t-en">K-Quantum Holdings on SBS</span>
+            </button>
+            <button type="button" class="intro-video-tag" role="tab" aria-selected="false" data-src="/videos/YTN 양자기술산업법 통과.mp4" data-label-ko="YTN 양자기술산업법 통과" data-label-en="YTN: Quantum Technology Industry Act">
+              <span class="t-ko">YTN 양자기술산업법 통과</span>
+              <span class="t-en">YTN: Quantum Technology Industry Act</span>
+            </button>
+            <button type="button" class="intro-video-tag" role="tab" aria-selected="false" data-src="/videos/K퀀텀홀딩스 기술발표회.mp4" data-label-ko="K퀀텀홀딩스 기술발표회" data-label-en="K-Quantum Technology Showcase">
+              <span class="t-ko">K퀀텀홀딩스 기술발표회</span>
+              <span class="t-en">K-Quantum Technology Showcase</span>
+            </button>
+            <button type="button" class="intro-video-tag" role="tab" aria-selected="false" data-src="/videos/K퀀텀홀딩스 글로벌 소스 오픈.mp4" data-label-ko="K퀀텀홀딩스 글로벌 소스 오픈" data-label-en="K-Quantum Global Source Open">
+              <span class="t-ko">K퀀텀홀딩스 글로벌 소스 오픈</span>
+              <span class="t-en">K-Quantum Global Source Open</span>
+            </button>
           </div>
         </div>
       </section>
@@ -1915,9 +2008,76 @@
           });
         }
         setContactPlaceholders();
+        // Intro video: tag switch (same file for KO / EN)
+        (function() {
+          var tags = document.querySelectorAll(".intro-video-tag");
+          var videoKo = document.getElementById("introVideoKo");
+          var videoEn = document.getElementById("introVideoEn");
+          if (!tags.length || !videoKo || !videoEn) return;
+
+          function encodeVideoSrc(path) {
+            if (!path) return path;
+            var parts = path.split("/");
+            return parts.map(function(p, i) { return i === 0 ? p : encodeURIComponent(p); }).join("/");
+          }
+
+          function setVideoAriaLabels(tag) {
+            var labelKo = tag.getAttribute("data-label-ko");
+            var labelEn = tag.getAttribute("data-label-en");
+            if (labelKo) videoKo.setAttribute("aria-label", labelKo);
+            if (labelEn) videoEn.setAttribute("aria-label", labelEn);
+          }
+
+          function getTagSources(tag) {
+            var srcKo = tag.getAttribute("data-src-ko") || tag.getAttribute("data-src");
+            var srcEn = tag.getAttribute("data-src-en") || tag.getAttribute("data-src") || srcKo;
+            return { ko: srcKo, en: srcEn };
+          }
+
+          function switchIntroVideo(tag) {
+            var sources = getTagSources(tag);
+            if (!sources.ko) return;
+
+            tags.forEach(function(t) {
+              t.classList.remove("active");
+              t.setAttribute("aria-selected", "false");
+            });
+            tag.classList.add("active");
+            tag.setAttribute("aria-selected", "true");
+
+            videoKo.pause();
+            videoEn.pause();
+            videoKo.src = encodeVideoSrc(sources.ko);
+            videoKo.load();
+            videoEn.src = encodeVideoSrc(sources.en);
+            videoEn.load();
+            setVideoAriaLabels(tag);
+          }
+
+          tags.forEach(function(tag) {
+            tag.addEventListener("click", function() {
+              switchIntroVideo(tag);
+            });
+          });
+
+          var activeTag = document.querySelector(".intro-video-tag.active");
+          if (activeTag) {
+            var initial = getTagSources(activeTag);
+            videoKo.src = encodeVideoSrc(initial.ko);
+            videoEn.src = encodeVideoSrc(initial.en);
+            setVideoAriaLabels(activeTag);
+          }
+
+          window.updateIntroVideoAria = function() {
+            var active = document.querySelector(".intro-video-tag.active");
+            if (active) setVideoAriaLabels(active);
+          };
+        })();
+
         var langObs = new MutationObserver(function() {
           setContactPlaceholders();
           document.querySelectorAll(".intro-video-wrap video").forEach(function(v) { v.pause(); });
+          if (typeof window.updateIntroVideoAria === "function") window.updateIntroVideoAria();
         });
         langObs.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
 
